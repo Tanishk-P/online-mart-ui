@@ -4,7 +4,7 @@ import { colors } from "../utls/Color";
 
 type CommonInputProps = {
     size?: 'large' | 'middle' | 'small';
-    label: string;
+    label?: string;
     errorText?: string;
     readonly handleChangeText: (text: string) => void;
     readonly marginTop?: number;
