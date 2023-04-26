@@ -7,6 +7,7 @@ import * as labelConst from "../utls/Labels"
 import { Link } from 'react-router-dom';
 import { PageRoutes } from '../utls/PageRoutes';
 import { colors } from '../utls/Color';
+import Logo from '../components/Logo';
 
 function Login() {
   return (
@@ -14,7 +15,8 @@ function Login() {
       <Row>
         <Col offset={8}>
           <div className='container'>
-              <div className='contain-center'>
+              <div className='contain-center-with-gap'>
+                <Logo />
                 <CommonHeader level={1} title={labelConst.WELCOME} />
               </div>
               <CommonInput label={labelConst.EMAIL} handleChangeText={(text: string) => {}} />
@@ -22,7 +24,7 @@ function Login() {
               <div style={{ marginTop: 30 }}>
                 <CommonButton type='primary' block >{labelConst.LOGIN}</CommonButton>
               </div>
-              <div style={{ marginTop: 30, display: "inline-flex", alignItems: "center"}}>
+              <div style={{ marginTop: 30, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 {labelConst.SIGNUP_MSG} 
                 <Link to={PageRoutes.signUp}>
                   <Typography style={{ fontWeight: '400', color: colors.primaryColor, cursor: 'pointer', paddingLeft: 4 }} >{labelConst.REGISTER}!</Typography>  
