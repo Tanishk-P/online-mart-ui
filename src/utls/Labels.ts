@@ -6,3 +6,6 @@ export const SIGNUP_MSG: string = "Don\'t have an account?";
 export const REGISTER: string = "Register";
 export const NAME: string = "Name";
 export const LOGIN_MSG: string = "Already have an account?";
+export const PLACEHOLDER_NAME: string = "Enter user name";
+export const PLACEHOLDER_EMAIL: string = "Enter user email";
+export const PLACEHOLDER_PASSWORD: string = "Enter password";
