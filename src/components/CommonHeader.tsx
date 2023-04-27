@@ -8,16 +8,17 @@ type CommonHeaderProps = {
     color?: string;
     margin?: string;
     padding?: string;
+    width?: string;
 }
 
 const { Title } = Typography;
 
 
 function CommonHeader(props: (TextProps & CommonHeaderProps)): JSX.Element{
-    const { title, level, color = colors.grayColor, margin, padding } = props;
+    const { title, level, color = colors.grayColor, margin, padding, width } = props;
     return(
         <>
-            <Title level={level} style={{ color : color, margin: margin, padding: padding}}>{title}</Title>
+            <Title level={level} style={{ color : color, margin: margin, padding: padding, width: width}}>{title}</Title>
         </>
     );
 }

@@ -35,6 +35,7 @@ function HomeHeader() {
                        <CommonHeader level={1} title='Needs' color={colors.lightGrayColor} margin={'0'}/> 
                     </div>
                     <div className="search">
+                        <CommonHeader level={5} title={labelConst.PRODUCT_LIST} color={colors.lightGrayColor} margin={'0'} width={'12vw'} />
                         <div style={{ cursor: "pointer" }}>
                             <Dropdown placement="bottom" overlayStyle={{ zIndex: "3000" }} menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}><AiFillFilter size={25} color={colors.lightGrayColor} /></Dropdown>
                         </div>
