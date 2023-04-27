@@ -9,3 +9,4 @@ export const LOGIN_MSG: string = "Already have an account?";
 export const PLACEHOLDER_NAME: string = "Enter user name";
 export const PLACEHOLDER_EMAIL: string = "Enter user email";
 export const PLACEHOLDER_PASSWORD: string = "Enter password";
+export const SIGN_IN: string = "Log in";
