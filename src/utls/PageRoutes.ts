@@ -1,11 +1,11 @@
 interface IPageRoutes {
+    home: string,
     login: string,
     signUp: string,
-    home: string,
 }
 
 export const PageRoutes: IPageRoutes = {
-    login: "/",
+    home: "/",
+    login: "/login",
     signUp: "/signUp",
-    home: "/home",
 } 
