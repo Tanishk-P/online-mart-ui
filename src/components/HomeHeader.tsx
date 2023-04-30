@@ -32,22 +32,28 @@ function HomeHeader() {
                 <div className="home-header">
                     <div className="title">
                         <Logo />
-                       <CommonHeader level={1} title='Needs' color={colors.lightGrayColor} margin={'0'}/> 
+                       <CommonHeader level={2} title='Needs' color={colors.lightGrayColor} margin={'0'}/> 
                     </div>
                     <div className="search">
-                        <CommonHeader level={5} title={labelConst.PRODUCT_LIST} color={colors.lightGrayColor} margin={'0'} width={'12vw'} />
+                        <CommonButton type="text" onClick={() => navigate(PageRoutes.home)}>
+                            <CommonHeader level={5} title={labelConst.PRODUCT_LIST} color={colors.lightGrayColor} margin={'0'} width={'12vw'} />
+                        </CommonButton>
                         <div style={{ cursor: "pointer" }}>
                             <Dropdown placement="bottom" overlayStyle={{ zIndex: "3000" }} menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}><AiFillFilter size={25} color={colors.lightGrayColor} /></Dropdown>
                         </div>
                         <Input.Search size="large" />
                     </div>
                     <div className="contain-center">
-                        <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
+                        <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
                             <CommonButton type={"text"} onClick={() => navigate(PageRoutes.login)}> 
-                                <Typography.Text style={{ color: colors.lightGrayColor }}>{labelConst.SIGN_IN}</Typography.Text> 
+                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_IN}</Typography.Text> 
                             </CommonButton>
-                        <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
-                            <Avatar size={"default"} style={{ backgroundColor: colors.lightGrayColor, color: colors.darkGray, cursor: "pointer" }} icon={<AiOutlineUser />}></Avatar>
+                        <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
+                            <CommonButton type={"text"} onClick={() => navigate(PageRoutes.signUp)}> 
+                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_UP}</Typography.Text> 
+                            </CommonButton>
+                        {/* <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
+                            <Avatar size={"default"} style={{ backgroundColor: colors.lightGrayColor, color: colors.darkGray, cursor: "pointer" }} icon={<AiOutlineUser />}></Avatar> */}
                     </div>
                 </div>
             </Col>
