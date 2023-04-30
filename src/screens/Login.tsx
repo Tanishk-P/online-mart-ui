@@ -5,7 +5,7 @@ import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
 import { RiLockPasswordFill } from 'react-icons/ri'
 import * as labelConst from "../utls/Labels" 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PageRoutes } from '../utls/PageRoutes';
 import { colors } from '../utls/Color';
 import Logo from '../components/Logo';
@@ -15,16 +15,18 @@ function Login() {
 
   const [email, setEmail] = useState<string>();
   const [password, SetPassword] = useState<string>();
+  const navigate = useNavigate();
 
   return (
-    <>
+    <div className='app'>
       <Row>
         <Col offset={8}>
           <div className='container'>
-              <div className='contain-center-with-gap'>
+              <div className='contain-center-with-gap' onClick={() => navigate(PageRoutes.home)} style={{ cursor: "pointer"}}>
                 <Logo />
-                <CommonHeader level={1} title={labelConst.WELCOME} />
+                <CommonHeader level={1} title={labelConst.NEEDS} />
               </div>
+              <Typography.Text className='contain-center'>{labelConst.WELCOME}</Typography.Text>
               <CommonInput label={labelConst.EMAIL} placeholder={labelConst.PLACEHOLDER_EMAIL} value={email} prefix={<SiGmail />} handleChangeText={(text: string) => {
                 setEmail(text);
               }} />
@@ -43,7 +45,7 @@ function Login() {
           </div>
         </Col>
       </Row>
-    </>
+    </div>
   )
 }
 
