@@ -17,3 +17,8 @@ export const PRODUCT_INFO: string = "Detailed information";
 export const PRODUCT_STOCK: string = "Quantity & more";
 export const PRODUCT_PRICE: string = "Price";
 export const NEEDS: string = "Needs";
+export const MANIFACTURE_DATE: string = "Manifacture Date :";
+export const USE_BY_DATE: string = "Use by Date :";
+export const CHECKOUT_PRICE: string = "Total Price";
+export const CHECKOUT_QUANTITY: string = "Total Quantity";
+
