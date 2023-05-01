@@ -29,13 +29,13 @@ function Register() {
                 <CommonHeader level={1} title={labelConst.NEEDS} />
               </div>
               <Typography.Text className='contain-center'>{labelConst.REGISTER}</Typography.Text>
-              <CommonInput label={labelConst.NAME} placeholder={labelConst.PLACEHOLDER_NAME} value={username} name={username} prefix={<AiFillDatabase />} handleChangeText={(text: string) => {
+              <CommonInput label={labelConst.NAME} placeholder={labelConst.PLACEHOLDER_NAME} value={username} name={username} type='username' prefix={<AiFillDatabase />} handleChangeText={(text: string) => {
                 setUsername(text);
               }} />
-              <CommonInput label={labelConst.EMAIL} placeholder={labelConst.PLACEHOLDER_EMAIL} value={email} name={email} prefix={<SiGmail />} handleChangeText={(text: string) => {
+              <CommonInput label={labelConst.EMAIL} placeholder={labelConst.PLACEHOLDER_EMAIL} value={email} name={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
                 setEmail(text);
               }} />
-              <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.PLACEHOLDER_PASSWORD} value={password} prefix={<RiLockPasswordFill />} handleChangeText={(text: string) => {
+              <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.PLACEHOLDER_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill />} handleChangeText={(text: string) => {
                 SetPassword(text);
               }} />
               <div style={{ marginTop: 30 }}>
