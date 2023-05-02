@@ -9,6 +9,7 @@ interface IColors {
     darkGray: string;
     lightBlack: string;
     azureBlue: string;
+    transparentGrey: string;
 }
 
 export class Colors implements IColors {
@@ -22,6 +23,7 @@ export class Colors implements IColors {
     darkGray: string = '#b8b6b6';
     lightBlack: string = 'rgba(0, 0, 0, 0.5)';
     azureBlue: string = '#00a3e3';
+    transparentGrey: string = 'rgba(0, 0, 0, 0.25)';
 }
 
 export const colors = new Colors();
