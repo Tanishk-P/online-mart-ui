@@ -86,7 +86,7 @@ function OrderScreen() {
                 <Col offset={14}>
                     <div className='contain-center' >
                         <CommonButton type='text' onClick={() => navigate(PageRoutes.admin)}>
-                            <Typography.Text style={{color: "rgb(0 0 0 / 59%)", fontWeight: 400}} >Home</Typography.Text>
+                            <Typography.Text style={{color: "rgb(0 0 0 / 59%)", fontWeight: 400}} >Sales</Typography.Text>
                         </CommonButton>
                         <Divider type='vertical' style={{ backgroundColor: "rgb(0 0 0 / 59%)" , height: '1.2rem'}} />
                         <CommonButton type='text'onClick={() => navigate(PageRoutes.home)}> 
