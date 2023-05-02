@@ -21,4 +21,5 @@ export const MANIFACTURE_DATE: string = "Manifacture Date :";
 export const USE_BY_DATE: string = "Use by Date :";
 export const CHECKOUT_PRICE: string = "Total Price";
 export const CHECKOUT_QUANTITY: string = "Total Quantity";
+export const ADMIN_SCREEN: string = "Welcome, Admin!";
 
