@@ -6,6 +6,6 @@ interface IApiEnvironment {
 }
 
 export const apiEnviornment: IApiEnvironment = {
-    register: "/signUp",
+    register: "/signup",
     login: "/login",
 }
