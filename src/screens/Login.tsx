@@ -20,17 +20,17 @@ function Login() {
   return (
     <div className='app'>
       <Row>
-        <Col offset={8}>
+        <Col offset={7}>
           <div className='container'>
               <div className='contain-center-with-gap' onClick={() => navigate(PageRoutes.home)} style={{ cursor: "pointer"}}>
                 <Logo />
                 <CommonHeader level={1} title={labelConst.NEEDS} />
               </div>
               <Typography.Text className='contain-center'>{labelConst.WELCOME}</Typography.Text>
-              <CommonInput label={labelConst.EMAIL} placeholder={labelConst.PLACEHOLDER_EMAIL} value={email} prefix={<SiGmail />} handleChangeText={(text: string) => {
+              <CommonInput label={labelConst.EMAIL} placeholder={labelConst.LOGIN_EMAIL} value={email} prefix={<SiGmail />} handleChangeText={(text: string) => {
                 setEmail(text);
               }} />
-              <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.PLACEHOLDER_PASSWORD} value={password} prefix={<RiLockPasswordFill /> } handleChangeText={(text: string) => {
+              <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.LOGIN_PASSWORD} value={password} prefix={<RiLockPasswordFill /> } handleChangeText={(text: string) => {
                 SetPassword(text);
               }} />
               <div style={{ marginTop: 30 }}>

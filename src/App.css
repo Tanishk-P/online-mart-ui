@@ -20,8 +20,8 @@
 .container {
   backdrop-filter: blur(2px);
   background-color: rgba(0, 0, 0, 0.04);
-  margin-top: 15vh;
-  width: 25vw;
+  margin-top: 10vh;
+  width: 30vw;
   padding: 10px 30px 30px 30px;
   box-shadow: 0px 0px 10px 1px #4c4c4d;
   border-radius: 10px;

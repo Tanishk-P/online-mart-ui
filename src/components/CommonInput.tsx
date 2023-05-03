@@ -6,7 +6,8 @@ type CommonInputProps = {
     size?: 'large' | 'middle' | 'small';
     label?: string;
     errorText?: string;
-    readonly handleChangeText: (text: string) => void;
+    readonly handleChangeText?: (text: string) => void;
+    readonly handleChangeNumber?: (text: number) => void;
     readonly marginTop?: number;
     readonly containerStyle?: CSSProperties;
     readonly borderRadius?: number;
@@ -19,7 +20,8 @@ function CommonInput(props: (InputProps & CommonInputProps)): JSX.Element {
             <label style={{ color: colors.grayColor, fontSize: 14 }}>{label}</label>
             <Input {...props} style={{ marginTop: 4, borderRadius }} size={size}
                 onChange={(event) => {
-                    props.handleChangeText(event.target.value);
+                   typeof event.target.value ==='string' && props.handleChangeText && props.handleChangeText(event.target.value);
+                   typeof event.target.value ==='number' && props.handleChangeNumber && props.handleChangeNumber(event.target.value);
                 }}
             />
             {errorText !== null && errorText !== undefined && errorText?.trim?.() !== '' && <Typography.Text type='danger'>{errorText}</Typography.Text>}
