@@ -1,4 +1,5 @@
 export interface ICustomResponse<T> {
     success: boolean;
-    data: T
+    data: T;
+    error: any
 }
