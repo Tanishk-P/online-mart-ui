@@ -13,7 +13,7 @@ import Logo from '../components/Logo';
 import { useState } from 'react';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { IInputError } from '../models/IInputError';
-import { register } from '../utls/ApiActions';
+import { register } from '../services/ApiActions';
 
 function Register() {
     const [username, setUsername] = useState<string>('');
@@ -57,7 +57,7 @@ function Register() {
               }} />
               <div style={{ marginTop: 5}}>
                 <Input placeholder={labelConst.PLACEHOLDER_CONTACT} value={contact} maxLength={10} type='tel' prefix={<FaPhoneAlt />} style={{ marginTop: 4, borderRadius: 0}} onChange={(e) => setContact(parseInt(e.target.value))}/>
-                {error !== null && error!== undefined && <Typography.Text type='danger'></Typography.Text>}
+                {/* {error !== null && error!== undefined && <Typography.Text type='danger'></Typography.Text>} */}
               </div>
               <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.PLACEHOLDER_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill />} handleChangeText={(text: string) => {
                 SetPassword(text);

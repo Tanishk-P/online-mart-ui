@@ -44,3 +44,19 @@ export function register(email: string, name: string, contact: number, password:
         })
     })
 }
+
+export function getUserDetails() : Promise<ICustomResponse<IUser[]>> {
+    return new Promise<ICustomResponse<IUser[]>> (function ( resolve, reject) {
+        axios({
+            headers: {
+                Authorization: localStorage.getItem('authToken')
+            },
+            url: BASE_URL + apiEnviornment.getUserDetails,
+            method: 'GET'
+        }).then((response: AxiosResponse<ICustomResponse<IUser[]>>) => {
+            resolve(response.data);
+        }).catch((error: Error) =>{
+            reject(error);
+        })
+    })
+}

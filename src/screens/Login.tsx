@@ -11,7 +11,7 @@ import { colors } from '../utls/Color';
 import Logo from '../components/Logo';
 import { SiGmail } from 'react-icons/si';
 import { IInputError } from '../models/IInputError';
-import { login } from '../utls/ApiActions';
+import { login } from '../services/ApiActions';
 
 function Login() {
 
