@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd';
+import { Col, Input, Row, Typography } from 'antd';
 import CommonHeader from '../components/CommonHeader';
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
@@ -28,7 +28,8 @@ function Register() {
       if (email && username && contact && password) {
         register(email, username, contact, password).then(response => {
           if (response?.success) {
-            console.log('signed up', response?.data)
+            console.log('signed up', response?.data);
+            navigate(PageRoutes.home);
           }
         }).catch(error => {
           console.log("error");
@@ -39,7 +40,7 @@ function Register() {
   return (
     <div className='app'>
       <Row>
-        <Col offset={7}>
+        <Col offset={8}>
           <div className='container'>
               <div className='contain-center-with-gap' onClick={() => navigate(PageRoutes.home)} style={{ cursor: "pointer"}}>
                 <Logo />
@@ -50,14 +51,14 @@ function Register() {
                 setUsername(text);
                 setError([]);
               }} />
-              <CommonInput label={labelConst.EMAIL} placeholder={labelConst.PLACEHOLDER_EMAIL} value={email} name={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
+              <CommonInput label={labelConst.EMAIL_CONTACT} placeholder={labelConst.PLACEHOLDER_EMAIL} value={email} name={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
                 setEmail(text);
                 setError([]);
               }} />
-              <CommonInput label={labelConst.CONTACT} placeholder={labelConst.PLACEHOLDER_CONTACT} maxLength={10} value={contact} type='tel' prefix={<FaPhoneAlt />} handleChangeNumber={( text: number) => {
-                setContact(text);
-                setError([]);
-              }} />
+              <div style={{ marginTop: 5}}>
+                <Input placeholder={labelConst.PLACEHOLDER_CONTACT} value={contact} maxLength={10} type='tel' prefix={<FaPhoneAlt />} style={{ marginTop: 4, borderRadius: 0}} onChange={(e) => setContact(parseInt(e.target.value))}/>
+                {error !== null && error!== undefined && <Typography.Text type='danger'></Typography.Text>}
+              </div>
               <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.PLACEHOLDER_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill />} handleChangeText={(text: string) => {
                 SetPassword(text);
                 setError([]);

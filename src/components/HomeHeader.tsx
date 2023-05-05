@@ -26,6 +26,11 @@ function HomeHeader() {
         },
       ];
 
+      const onLogout = () => {
+        localStorage.removeItem('authToken');
+        window.location.reload();
+      }
+
     return (
         <Row>
             <Col>
@@ -38,22 +43,31 @@ function HomeHeader() {
                         <CommonButton type="text" onClick={() => navigate(PageRoutes.home)}>
                             <CommonHeader level={5} title={labelConst.PRODUCT_LIST} color={colors.lightGrayColor} margin={'0'} width={'12vw'} />
                         </CommonButton>
-                        <div style={{ cursor: "pointer" }}>
+                        {/* <div style={{ cursor: "pointer" }}>
                             <Dropdown placement="bottom" overlayStyle={{ zIndex: "3000" }} menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}><AiFillFilter size={25} color={colors.lightGrayColor} /></Dropdown>
-                        </div>
+                        </div> */}
                         <Input.Search size="large" />
                     </div>
-                    <div className="contain-center">
-                        <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
-                            <CommonButton type={"text"} onClick={() => navigate(PageRoutes.login)}> 
-                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_IN}</Typography.Text> 
-                            </CommonButton>
-                        <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
-                            <CommonButton type={"text"} onClick={() => navigate(PageRoutes.signUp)}> 
-                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_UP}</Typography.Text> 
-                            </CommonButton>
-                        {/* <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
-                            <Avatar size={"default"} style={{ backgroundColor: colors.lightGrayColor, color: colors.darkGray, cursor: "pointer" }} icon={<AiOutlineUser />}></Avatar> */}
+                    <div className="contain-center">                        
+                        { !localStorage.getItem('authToken') ? 
+                        (<div style={{ display: 'flex', alignItems: 'center'}}>
+                            <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
+                                <CommonButton type={"text"} onClick={() => navigate(PageRoutes.login)}> 
+                                    <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_IN}</Typography.Text> 
+                                </CommonButton>
+                            <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
+                                <CommonButton type={"text"} onClick={() => navigate(PageRoutes.signUp)}> 
+                                    <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_UP}</Typography.Text> 
+                                </CommonButton>
+                        </div>) :
+                        (<div style={{ display: 'flex', alignItems: "center"}}>
+                                <Avatar size={"default"} style={{ marginRight: 10, backgroundColor: colors.lightGrayColor, color: colors.darkGray, cursor: "pointer" }} icon={<AiOutlineUser />}></Avatar>
+                            {/* <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>      */}
+                                <CommonButton type={"text"} onClick={() => onLogout()}> 
+                                    <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_OUT}</Typography.Text> 
+                                </CommonButton>
+                        </div>)}
+                                                    
                     </div>
                 </div>
             </Col>

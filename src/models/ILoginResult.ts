@@ -3,5 +3,5 @@ export interface ILoginResult{
     email?:string;
     name?:string;
     contact?:string;
-    accessAuth?: string;
+    accessAuth: string;
 }
