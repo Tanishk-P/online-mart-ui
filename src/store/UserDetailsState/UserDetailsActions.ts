@@ -4,7 +4,7 @@ import { IUser } from '../../models/IUser';
 import { getUserDetails } from '../../services/ApiActions';
 import { ICustomResponse } from '../../models/ICustomResponse';
 import { USER_DETAILS } from './UserDetailsActionTypes';
-import { SET_ERROR } from '../Types';
+import { SET_ERROR } from '../RootActionTypes';
 
 export function UserDetails() {
     return (dispatch: Dispatch<ICustomAction<IUser[]>>) => {
