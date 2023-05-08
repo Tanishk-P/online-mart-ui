@@ -1,5 +1,5 @@
 import { Col, Row, Typography } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CommonHeader from '../components/CommonHeader';
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
@@ -11,7 +11,8 @@ import { colors } from '../utls/Color';
 import Logo from '../components/Logo';
 import { SiGmail } from 'react-icons/si';
 import { IInputError } from '../models/IInputError';
-import { login } from '../services/ApiActions';
+import { getUserDetails, login } from '../services/ApiActions';
+import { IUser } from '../models/IUser';
 
 function Login() {
 
@@ -24,10 +25,12 @@ function Login() {
     console.log('clicked login', email, password)
       login(email, password).then(response => {
         if (response?.success) {
-          console.log("clicked login", response.data.name);
-          navigate(PageRoutes.home);
-        }
-      })  
+            getUserDetails().then(response => {
+              // console.log('user role is', response?.data?.role);
+              { response?.data?.role == 1 ? navigate(PageRoutes.admin) : navigate(PageRoutes.home) } 
+            })
+          }          
+        })
   } 
 
   return (

@@ -7,7 +7,12 @@ export default function UserDetailsReducer(state: IUserDetailState = defaultUser
         case USER_DETAILS:
             return {
                 ...state,
-                userDetails: action.data
+                _id: action?.data._id,
+                email: action?.data.email,
+                name: action?.data.name,
+                password: action?.data.name,
+                contact: action?.data.contact,
+                role: action?.data.role
             }
         default:
             return state;

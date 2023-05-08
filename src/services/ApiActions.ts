@@ -4,6 +4,8 @@ import { ILoginResult } from "../models/ILoginResult"
 import { BASE_URL, apiEnviornment } from "./ApiEnivornment"
 import { IUser } from "../models/IUser"
 import { IIntegration } from "../models/IIntegration"
+import { IProduct } from "../models/IProduct"
+import { error } from "console"
 
 export function login(email: string, password: string) : Promise<ICustomResponse<ILoginResult>> {
     return new Promise<ICustomResponse<ILoginResult>>( function( resolve, reject){
@@ -45,18 +47,39 @@ export function register(email: string, name: string, contact: number, password:
     })
 }
 
-export function getUserDetails() : Promise<ICustomResponse<IUser[]>> {
-    return new Promise<ICustomResponse<IUser[]>> (function ( resolve, reject) {
+export function getUserDetails() : Promise<ICustomResponse<IUser>> {
+    return new Promise<ICustomResponse<IUser>> (function ( resolve, reject) {
         axios({
             headers: {
                 Authorization: localStorage.getItem('authToken')
             },
             url: BASE_URL + apiEnviornment.getUserDetails,
             method: 'GET'
-        }).then((response: AxiosResponse<ICustomResponse<IUser[]>>) => {
+        }).then((response: AxiosResponse<ICustomResponse<IUser>>) => {
             resolve(response.data);
         }).catch((error: Error) =>{
             reject(error);
+        })
+    })
+}
+
+export function getAllProducts() : Promise<ICustomResponse<IProduct[]>> {
+    return new Promise<ICustomResponse<IProduct[]>> ( function( resolve, reject) {
+        axios({
+            url: BASE_URL + apiEnviornment.productList,
+            method: 'GET'
+        }).then((response: AxiosResponse<ICustomResponse<IProduct[]>>) => {           
+            resolve(response.data);            
+        }).catch((error: Error) => {
+            reject(error);
+        })
+    })
+}
+
+export function getProductById(_id: string) : Promise<ICustomResponse<IProduct[]>> {
+    return new Promise <ICustomResponse<IProduct[]>> (function (resolve, reject) {
+        getAllProducts().then(response => {
+            
         })
     })
 }

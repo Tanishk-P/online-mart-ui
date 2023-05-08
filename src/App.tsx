@@ -6,20 +6,24 @@ import Home from './screens/Home';
 import ProductInfoScreen from './screens/ProductInfoScreen';
 import AdminScreen from './screens/AdminScreen';
 import OrderScreen from './screens/OrderScreen';
+import { Provider } from 'react-redux';
+import store from './store/Store';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/sign-up' element={<Register />} />
-        <Route path='/info' element={<ProductInfoScreen />} />
-        <Route path='/admin' element={<AdminScreen />} />
-        <Route path='/admin/orders' element={<OrderScreen />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/sign-up' element={<Register />} />
+          <Route path='/info' element={<ProductInfoScreen />} />
+          <Route path='/admin' element={<AdminScreen />} />
+          <Route path='/admin/orders' element={<OrderScreen />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -7,8 +7,8 @@ import { USER_DETAILS } from './UserDetailsActionTypes';
 import { SET_ERROR } from '../RootActionTypes';
 
 export function UserDetails() {
-    return (dispatch: Dispatch<ICustomAction<IUser[]>>) => {
-        getUserDetails().then((response: ICustomResponse<IUser[]>) => {
+    return (dispatch: Dispatch<ICustomAction<IUser>>) => {
+        getUserDetails().then((response: ICustomResponse<IUser>) => {
             dispatch({
                 type: USER_DETAILS,
                 data: response.data

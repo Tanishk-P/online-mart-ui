@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { Avatar, Col, Divider, Dropdown, Input, MenuProps, Row, Typography } from "antd";
 import { AiFillFilter, AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,9 +8,32 @@ import Logo from "../components/Logo";
 import { colors } from "../utls/Color";
 import * as labelConst from "../utls/Labels";
 import { PageRoutes } from "../utls/PageRoutes";
+import { UserDetails } from '../store/UserDetailsState/UserDetailsActions';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { IAppState } from '../store/state';
+import { IUser } from '../models/IUser';
+import { getUserDetails } from '../services/ApiActions';
 
 function HomeHeader() {
     const navigate = useNavigate();
+    const [userDetails, setUserDetails] = useState<IUser>();
+    const user: IUser | undefined = useSelector((state : IAppState )=> state.userDetailState);
+    const dispatch = useDispatch();
+
+    // console.log('hello', user)
+    
+
+    useEffect(() => {
+        _fetchUserDetails();
+    }, [])
+
+    const _fetchUserDetails = () => {
+        getUserDetails().then((response) => {
+            // console.log('This is the user details', response.data);            
+            setUserDetails(response?.data);
+        })
+    }
 
     const items: MenuProps['items'] = [
         {
@@ -61,8 +85,8 @@ function HomeHeader() {
                                 </CommonButton>
                         </div>) :
                         (<div style={{ display: 'flex', alignItems: "center"}}>
-                                <Avatar size={"default"} style={{ marginRight: 10, backgroundColor: colors.lightGrayColor, color: colors.darkGray, cursor: "pointer" }} icon={<AiOutlineUser />}></Avatar>
-                            {/* <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>      */}
+                                    <Typography.Text style={{ marginRight: 10, color: colors.lightGrayColor, fontWeight: 400 }}>Hello, {userDetails?.name}</Typography.Text>                                
+                            <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>     
                                 <CommonButton type={"text"} onClick={() => onLogout()}> 
                                     <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_OUT}</Typography.Text> 
                                 </CommonButton>

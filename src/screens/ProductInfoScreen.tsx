@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Divider, InputNumber, Layout, Modal, Row, Slider, Typography } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import HomeHeader from '../components/HomeHeader';
@@ -7,16 +7,28 @@ import CommonHeader from '../components/CommonHeader';
 import * as labelConst from '../utls/Labels';
 import { colors } from '../utls/Color';
 import CommonButton from '../components/CommonButton';
+import { useLocation } from 'react-router-dom';
 
 function ProductInfoScreen() {
-    const [title, setTitle] = useState<string>('Product title');
+    const [productName, setProductName] = useState<string>('');
+    const [productImage, setProductImage] = useState<string>('')
     const [productQuantity, setProductQuantity] = useState<number>(20);
-    const [productPrice, setProductPrice] = useState<number>(10);
+    const [productPrice, setProductPrice] = useState<number>();
     const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
-    const [totalPrice, setTotalPrice] = useState<number>(productPrice);
+    const [totalPrice, setTotalPrice] = useState(productPrice !== undefined ? productPrice : 'select');
+
+    const location = useLocation();
+    const productInfo = location.state.productInfo;
+    console.log('productInfo on new screen', productInfo);
+
+    useEffect(()=> {
+        setProductName(productInfo?.name);
+        setProductImage(productInfo?.imageUrl);
+        setProductPrice(productInfo?.price)
+    }, [productInfo])
 
         const onChange = (value: number | null) => {
-            if (value !== null) {
+            if (value !== null && productPrice) {
                setSelectedQuanity(value); 
                setTotalPrice(productPrice * value);
             }
@@ -55,7 +67,7 @@ function ProductInfoScreen() {
                 <Col>
                     <InputNumber 
                         readOnly
-                        prefix= "$"
+                        prefix= "₹"
                         value={totalPrice}
                     />
                 </Col>
@@ -104,11 +116,11 @@ function ProductInfoScreen() {
                     onOk={() => onOk()}
                     onCancel={() => onCancel()}
                 >        
-                    <CommonHeader level={2} margin={'5px'} title={title} />
+                    <CommonHeader level={2} margin={'5px'} title={productName} />
                     <div style={{ marginTop: "12px" }}/>
                     <Row>
                         <Col>{labelConst.CHECKOUT_QUANTITY} : {selectedQuantity}</Col>
-                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ${totalPrice} </Col>
+                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹{totalPrice} </Col>
                     </Row>
                 </Modal>
             </>
@@ -123,14 +135,14 @@ function ProductInfoScreen() {
         <Row gutter={16} style={{ display: "flex", justifyContent: "flex-start", gap: "5vw", width: "100vw", marginLeft: "5vw"}}>
             <Col >
                 <div className='product-image'>
-                    <img src={food} alt='food' style={{ width: "450px", height: "450px", objectFit: "cover", borderRadius: "10px" }}/>
+                    <img src={productImage} alt='food' style={{ width: "450px", height: "450px", objectFit: "cover", borderRadius: "10px" }}/>
                 </div>
             </Col>
             <Col>
                 <div className='info-container'>
-                        <CommonHeader level={1} margin={'5px'} title={title} />
+                        <CommonHeader level={1} margin={'5px'} title={productName} />
                     <Divider plain style={{ color: colors.grayColor, borderColor: colors.darkGray }}>{labelConst.PRODUCT_PRICE}</Divider>
-                        <CommonHeader level={3} margin={'5px'} title="$10.00" />
+                        <Typography.Title level={3} style={{ color: colors.grayColor, margin: 5}}>₹ {productPrice}</Typography.Title>
                     <Divider plain style={{ color: colors.grayColor, borderColor: colors.darkGray }}>{labelConst.PRODUCT_STOCK}</Divider>
                        { _renderQuantitySlider()}
                        <div style={{ marginTop: "12px"}} />
