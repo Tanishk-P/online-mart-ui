@@ -3,6 +3,7 @@ import { Col, Divider, InputNumber, Layout, Modal, Row, Slider, Typography } fro
 import { Content } from 'antd/es/layout/layout';
 import HomeHeader from '../components/HomeHeader';
 import food from "../images/food.jpg";
+import { MdShoppingCartCheckout } from 'react-icons/md';
 import CommonHeader from '../components/CommonHeader';
 import * as labelConst from '../utls/Labels';
 import { colors } from '../utls/Color';
@@ -15,7 +16,7 @@ function ProductInfoScreen() {
     const [productQuantity, setProductQuantity] = useState<number>(20);
     const [productPrice, setProductPrice] = useState<number>();
     const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
-    const [totalPrice, setTotalPrice] = useState(productPrice !== undefined ? productPrice : 'select');
+    const [totalPrice, setTotalPrice] = useState(productPrice);
 
     const location = useLocation();
     const productInfo = location.state.productInfo;
@@ -68,7 +69,7 @@ function ProductInfoScreen() {
                     <InputNumber 
                         readOnly
                         prefix= "₹"
-                        value={totalPrice}
+                        value={selectedQuantity !==1 ? totalPrice : productPrice}
                     />
                 </Col>
             </Row>
@@ -79,13 +80,17 @@ function ProductInfoScreen() {
         return (
             <>
                 <Row >
-                    <Col span={6}>{labelConst.MANIFACTURE_DATE}</Col>
-                    <Col>dd/mm/yyyy</Col>
+                    <Col span={6}>{labelConst.PRODUCT_CATEGORY}</Col>
+                    <Col>{productInfo?.category}</Col>
                 </Row>
                 <Row>
-                    <Col span={6}>{labelConst.USE_BY_DATE}</Col>
-                    <Col>dd/mm/yyyy</Col>
+                    <Col span={6}>{labelConst.PRODUCT_COMPANY}</Col>
+                    <Col>{productInfo?.company}</Col>
                 </Row>
+                <Row>
+                    <Col span={6}>{labelConst.PRODUCT_DESCRIPTION}</Col>
+                    <Col>{productInfo?.description}</Col>
+                </Row>             
             </>
             
         )
@@ -108,7 +113,7 @@ function ProductInfoScreen() {
 
         return (
             <>
-                <CommonButton onClick={() => showModal()}> Checkout </CommonButton>
+                <CommonButton onClick={() => showModal()}><div className='contain-center'><MdShoppingCartCheckout size={20} /> Checkout</div> </CommonButton>
                 <Modal 
                     title="Checkout"
                     centered
@@ -120,7 +125,7 @@ function ProductInfoScreen() {
                     <div style={{ marginTop: "12px" }}/>
                     <Row>
                         <Col>{labelConst.CHECKOUT_QUANTITY} : {selectedQuantity}</Col>
-                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹{totalPrice} </Col>
+                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹ {selectedQuantity !== 1 ? totalPrice : productPrice} </Col>
                     </Row>
                 </Modal>
             </>
@@ -149,7 +154,7 @@ function ProductInfoScreen() {
                        {_renderQuanityPrice()}
                     <Divider plain style={{ color: colors.grayColor, borderColor: colors.darkGray }}>{labelConst.PRODUCT_INFO}</Divider>
                         {_renderProductInfo()}
-                        <div className='contain-center' style={{ marginTop: "14px"}}>
+                        <div style={{ marginTop: "14px", display: 'flex', position: "absolute", bottom: "3.5rem", right: "5rem"}}>
                             {_renderCheckOut()}
                         </div>
                 </div>

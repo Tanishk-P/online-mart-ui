@@ -27,20 +27,25 @@ function Home() {
         const { ...props } = product;
         
         return (
-            <Card
-                id={props._id}
-                size="small"
-                cover={<img src={props.imageUrl} alt={props.category} style={{ objectFit: "cover", height: "35vh" }} />}
-                style={{ margin: "20px", width: "300px", height: "48vh" }}
-                hoverable
-            >
-                <Typography.Text className="view" >
-                    <div style={{ display: "flex", gap: "10px" }} onClick={() => {onSelectProduct(props)}}>
-                        <AiFillEye key="view" size={20} />
-                        {props.name}
-                    </div>
-                </Typography.Text>
-            </Card>
+            // <Card
+            //     id={props._id}
+            //     size="small"
+            //     cover={<img src={props.imageUrl} alt={props.category} style={{ objectFit: "cover", height: "35vh" }} />}
+            //     style={{ margin: "20px", width: "300px", height: "48vh" }}
+            //     hoverable
+            // >
+            //     <Typography.Text className="view" >
+            //         <div style={{ display: "flex", gap: "10px" }} onClick={() => {onSelectProduct(props)}}>
+            //             <AiFillEye key="view" size={20} />
+            //             {props.name}
+            //         </div>
+            //     </Typography.Text>
+            // </Card>
+            <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props)}>
+                <div className="product-name">
+                    <AiFillEye key="view" size={20} /> {props.name}
+                </div>
+            </div>
         )
       });
       setProductList(productList); 
@@ -59,11 +64,11 @@ function Home() {
                     <Row>
                         <Col style={{ display: 'flex'}}>
                             {productList}
-                            <div className="product-container" style={{ backgroundImage: `url(${food})`}}>
+                            {/* <div className="product-container" style={{ backgroundImage: `url(${food})`}}>
                                 <div className="product-name">
                                     <AiFillEye key="view" size={20} /> Product
                                 </div>
-                            </div>
+                            </div> */}
                         </Col>
                     </Row> 
                     {/* <br />
