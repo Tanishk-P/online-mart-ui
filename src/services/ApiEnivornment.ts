@@ -1,4 +1,4 @@
-export const BASE_URL = "http://192.168.1.7:3000";
+export const BASE_URL = "https://1b03-59-95-138-208.ngrok-free.app";
 
 interface IApiEnvironment {
     register: string;

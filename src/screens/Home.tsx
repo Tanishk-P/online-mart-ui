@@ -9,6 +9,7 @@ import { PageRoutes } from "../utls/PageRoutes";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from '../services/ApiActions';
 import { IProduct } from '../models/IProduct';
+import food from "../images/food.jpg"
 
 function Home() {
     const navigate = useNavigate();
@@ -58,6 +59,11 @@ function Home() {
                     <Row>
                         <Col style={{ display: 'flex'}}>
                             {productList}
+                            <div className="product-container" style={{ backgroundImage: `url(${food})`}}>
+                                <div className="product-name">
+                                    <AiFillEye key="view" size={20} /> Product
+                                </div>
+                            </div>
                         </Col>
                     </Row> 
                     {/* <br />
