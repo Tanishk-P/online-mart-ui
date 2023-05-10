@@ -113,7 +113,7 @@ function ProductInfoScreen() {
 
         return (
             <>
-                <CommonButton onClick={() => showModal()}><div className='contain-center'><MdShoppingCartCheckout size={20} /> Checkout</div> </CommonButton>
+                <CommonButton onClick={() => showModal()} disabled={ !localStorage?.getItem('authToken') ? true : false} ><div className='contain-center'><MdShoppingCartCheckout size={20} /> Checkout</div> </CommonButton>
                 <Modal 
                     title="Checkout"
                     centered
