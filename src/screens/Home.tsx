@@ -41,11 +41,14 @@ function Home() {
             //         </div>
             //     </Typography.Text>
             // </Card>
-            <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props)}>
-                <div className="product-name">
-                    <AiFillEye key="view" size={20} /> {props.name}
+            <Col id={props?._id}>
+                <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props)}>
+                    <div className="product-name">
+                        <AiFillEye key="view" size={20} /> {props.name}
+                    </div>
                 </div>
-            </div>
+            </Col>
+            
         )
       });
       setProductList(productList); 
@@ -61,15 +64,15 @@ function Home() {
             <HomeHeader />
             <Content style={{ position: 'absolute', top: '10vh' }}>
                 <div className="product-list-bg" >
-                    <Row>
-                        <Col style={{ display: 'flex'}}>
-                            {productList}
-                            {/* <div className="product-container" style={{ backgroundImage: `url(${food})`}}>
+                    <Row gutter={16} style={{ marginLeft: '1rem'}}>
+                        {productList}
+                        {/* <Col>
+                            <div className="product-container" style={{ backgroundImage: `url(${food})`}}>
                                 <div className="product-name">
                                     <AiFillEye key="view" size={20} /> Product
                                 </div>
-                            </div> */}
-                        </Col>
+                            </div>                            
+                        </Col> */}
                     </Row> 
                     {/* <br />
                     <br />
