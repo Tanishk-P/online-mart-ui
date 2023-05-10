@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, Row, Typography, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import CommonHeader from '../components/CommonHeader';
 import CommonInput from '../components/CommonInput';
@@ -13,6 +13,7 @@ import { SiGmail } from 'react-icons/si';
 import { IInputError } from '../models/IInputError';
 import { getUserDetails, login } from '../services/ApiActions';
 import { IUser } from '../models/IUser';
+import { getErrorText, validateEmail } from '../utls/Helper';
 
 function Login() {
 
@@ -23,15 +24,40 @@ function Login() {
 
   function onLogin() : void {
     console.log('clicked login', email, password)
+    if (validation()) {
       login(email, password).then(response => {
         if (response?.success) {
+            message.success('Login successfull')
             getUserDetails().then(response => {
               // console.log('user role is', response?.data?.role);
               { response?.data?.role == 1 ? navigate(PageRoutes.admin) : navigate(PageRoutes.home) } 
             })
           }          
-        })
+        })                 
+    }        
   } 
+
+  function validation() : boolean {
+    let validated = true;
+    const validationError: IInputError[] = Object.assign([], error)
+    if (!validateEmail(email)) {
+      validationError.push({
+        errorText: "Please enter valid email address",
+        name: 'email'
+      })
+      validated = false;
+    }
+    if (password?.trim?.() === '') {
+      validationError.push({
+          errorText: 'Please enter valid password',
+          name: 'password',
+      })
+      validated = false;
+  }
+    setError(validationError);
+    validationError && message.error('Something went wrong');    
+    return validated;
+  }
 
   return (
     <div className='app'>
@@ -43,11 +69,11 @@ function Login() {
                 <CommonHeader level={1} title={labelConst.NEEDS} />
               </div>
               <Typography.Text className='contain-center'>{labelConst.WELCOME}</Typography.Text>
-              <CommonInput label={labelConst.EMAIL} placeholder={labelConst.LOGIN_EMAIL} value={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
+              <CommonInput status={getErrorText('email', error) ? 'error' : ''} errorText={getErrorText('email', error)} label={labelConst.EMAIL} placeholder={labelConst.LOGIN_EMAIL} value={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
                 setEmail(text);
                 setError([]);
               }} />
-              <CommonInput label={labelConst.PASSWORD} placeholder={labelConst.LOGIN_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill /> } handleChangeText={(text: string) => {
+              <CommonInput status={getErrorText('password', error) ? 'error' : ''} errorText={getErrorText('password', error)} label={labelConst.PASSWORD} placeholder={labelConst.LOGIN_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill /> } handleChangeText={(text: string) => {
                 SetPassword(text);
                 setError([]);
               }} />
