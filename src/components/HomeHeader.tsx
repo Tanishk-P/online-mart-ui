@@ -15,14 +15,13 @@ import { IAppState } from '../store/state';
 import { IUser } from '../models/IUser';
 import { getUserDetails } from '../services/ApiActions';
 
-function HomeHeader() {
+function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setSearchQuery: (query: string) => void }) {
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState<IUser>();
     const user: IUser | undefined = useSelector((state : IAppState )=> state.userDetailState);
     const dispatch = useDispatch();
 
-    // console.log('hello', user)
-    
+    // console.log('hello', user)          
 
     useEffect(() => {
         _fetchUserDetails();
@@ -70,7 +69,7 @@ function HomeHeader() {
                         {/* <div style={{ cursor: "pointer" }}>
                             <Dropdown placement="bottom" overlayStyle={{ zIndex: "3000" }} menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}><AiFillFilter size={25} color={colors.lightGrayColor} /></Dropdown>
                         </div> */}
-                        <Input.Search size="large" />
+                        <Input.Search size="large" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
                     </div>
                     <div className="contain-center">                        
                         { !localStorage.getItem('authToken') ? 

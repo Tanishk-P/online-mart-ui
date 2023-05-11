@@ -17,6 +17,7 @@ function ProductInfoScreen() {
     const [productPrice, setProductPrice] = useState<number>();
     const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
     const [totalPrice, setTotalPrice] = useState(productPrice);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const location = useLocation();
     const productInfo = location.state.productInfo;
@@ -25,7 +26,8 @@ function ProductInfoScreen() {
     useEffect(()=> {
         setProductName(productInfo?.name);
         setProductImage(productInfo?.imageUrl);
-        setProductPrice(productInfo?.price)
+        setProductPrice(productInfo?.price);
+        setSelectedQuanity(productInfo?.name);
     }, [productInfo])
 
         const onChange = (value: number | null) => {
@@ -149,7 +151,7 @@ function ProductInfoScreen() {
 
   return (
    <Layout>
-    <HomeHeader />
+    <HomeHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
     <Content style={{ position: "absolute", top: "4.2rem", padding: "50px", backgroundColor: "#f0f0f0"}}>
         <Row gutter={16} style={{ display: "flex", justifyContent: "flex-start", gap: "5vw", width: "100vw", marginLeft: "5vw"}}>
             <Col >
