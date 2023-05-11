@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Divider, InputNumber, Layout, Modal, Row, Slider, Typography } from 'antd';
+import { Col, Divider, InputNumber, Layout, Modal, Row, Slider, Typography, notification } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import HomeHeader from '../components/HomeHeader';
-import food from "../images/food.jpg";
 import { MdShoppingCartCheckout } from 'react-icons/md';
 import CommonHeader from '../components/CommonHeader';
 import * as labelConst from '../utls/Labels';
 import { colors } from '../utls/Color';
 import CommonButton from '../components/CommonButton';
 import { useLocation } from 'react-router-dom';
+import { orderProduct } from '../services/ApiActions';
 
 function ProductInfoScreen() {
     const [productName, setProductName] = useState<string>('');
@@ -31,7 +31,11 @@ function ProductInfoScreen() {
         const onChange = (value: number | null) => {
             if (value !== null && productPrice) {
                setSelectedQuanity(value); 
-               setTotalPrice(productPrice * value);
+               if (value === 1) {
+                setTotalPrice(productPrice)
+               } else if (value > 1) {
+                setTotalPrice(productPrice * value);
+               }               
             }
         };
 
@@ -104,7 +108,17 @@ function ProductInfoScreen() {
         }
 
         const onOk = () => {
-            setModalState(false);
+            if (productInfo?._id && selectedQuantity && totalPrice && productName) {
+                orderProduct(productInfo?._id, selectedQuantity, totalPrice , productName).then(response => {
+                console.log('order successfull', response?.data);
+                notification.success({
+                    message: "Order Placed",
+                    description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor}}>Purchased <div style={{ color: colors.primaryColor}}>{productName}</div>, quantity is <div style={{ color: colors.primaryColor}}>{selectedQuantity}</div></Typography.Text>,
+                    style: { position: 'relative', zIndex: 3000}
+                });
+                setModalState(false);
+                });
+            }            
         }
 
         const onCancel = () => {

@@ -5,7 +5,7 @@ import { BASE_URL, apiEnviornment } from "./ApiEnivornment"
 import { IUser } from "../models/IUser"
 import { IIntegration } from "../models/IIntegration"
 import { IProduct } from "../models/IProduct"
-import { error } from "console"
+import { IOrders } from "../models/IOrders"
 
 export function login(email: string, password: string) : Promise<ICustomResponse<ILoginResult>> {
     return new Promise<ICustomResponse<ILoginResult>>( function( resolve, reject){
@@ -80,6 +80,26 @@ export function getProductById(_id: string) : Promise<ICustomResponse<IProduct[]
     return new Promise <ICustomResponse<IProduct[]>> (function (resolve, reject) {
         getAllProducts().then(response => {
             
+        })
+    })
+}
+
+export function orderProduct(productId: string, quantity: number, totalAmount: number, productName: string) : Promise<ICustomResponse<IOrders>> {
+    return new Promise<ICustomResponse<IOrders>> (function ( resolve, reject) {
+        axios({
+            headers: {Authorization: localStorage.getItem("authToken")},
+            url: BASE_URL + apiEnviornment.orderProduct,
+            data: {
+                productId,
+                quantity,
+                totalAmount,
+                productName
+            },
+            method: "POST"
+        }).then((response: AxiosResponse<ICustomResponse<IOrders>>) => {
+            resolve(response?.data);
+        }).catch((error: Error) => {
+            reject(error);
         })
     })
 }
