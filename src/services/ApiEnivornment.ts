@@ -1,4 +1,4 @@
-export const BASE_URL = "http://192.168.1.12:3000";
+export const BASE_URL = "http://192.168.1.8:3000";
 
 interface IApiEnvironment {
     register: string;
@@ -7,6 +7,7 @@ interface IApiEnvironment {
     productList: string;
     products: string;
     addProducts: string;
+    orderProduct: string;   
 }
 
 export const apiEnviornment: IApiEnvironment = {
@@ -18,8 +19,8 @@ export const apiEnviornment: IApiEnvironment = {
     // PRODUCTS 
     productList: "/customer/products",
     products: "/products",
-    addProducts: "/products/add-products"
-    
+    addProducts: "/products/add-products",
+    orderProduct: "/orders/accept-orders"
 
 
 
