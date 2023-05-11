@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Layout, Pagination, Row, Typography } from "antd";
+import { Card, Col, Layout, Pagination, Row, Typography, notification } from "antd";
 import { Content } from "antd/es/layout/layout";
 import HomeHeader from "../components/HomeHeader";
 import { colors } from "../utls/Color";
@@ -9,39 +9,25 @@ import { PageRoutes } from "../utls/PageRoutes";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from '../services/ApiActions';
 import { IProduct } from '../models/IProduct';
-import food from "../images/food.jpg"
 
 function Home() {
     const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState('');
     const [productList, setProductList] = useState<JSX.Element[]>([]);
 
     useEffect(() => {
         _fetchAllProducts();
-    }, [])
+    }, [searchQuery])
 
     async function _fetchAllProducts() {
       const response = await getAllProducts();
       const products = response?.data;
-      const productList = products.map((product) => {
+      const productList = products.filter((product) => product?.name?.toLowerCase()?.includes(searchQuery?.toLowerCase())).map((product) => {
         
         const { ...props } = product;
         
         return (
-            // <Card
-            //     id={props._id}
-            //     size="small"
-            //     cover={<img src={props.imageUrl} alt={props.category} style={{ objectFit: "cover", height: "35vh" }} />}
-            //     style={{ margin: "20px", width: "300px", height: "48vh" }}
-            //     hoverable
-            // >
-            //     <Typography.Text className="view" >
-            //         <div style={{ display: "flex", gap: "10px" }} onClick={() => {onSelectProduct(props)}}>
-            //             <AiFillEye key="view" size={20} />
-            //             {props.name}
-            //         </div>
-            //     </Typography.Text>
-            // </Card>
-            <Col id={props?._id}>
+            <Col id={props?._id} key={props?.name}>
                 <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props)}>
                     <div className="product-name">
                         <AiFillEye key="view" size={20} /> {props.name}
@@ -55,35 +41,26 @@ function Home() {
 
         function onSelectProduct(productInfo: IProduct) : void {
             console.log('selected product', productInfo);
+            !localStorage.getItem('authToken') && notification.warning({
+                message: 'Sign-In required',
+                description: 
+                <div style={{ display: 'inline-flex', gap: 3}}>To Checkout items,
+                    <div style={{ cursor: 'pointer', color: colors.primaryColor}} onClick={() => navigate(PageRoutes.login)}>{labelConst.LOGIN}</div> or
+                    <div style={{ cursor: 'pointer', color: colors.red }} onClick={() => navigate(PageRoutes.signUp)}>{labelConst.SIGN_UP}</div>
+                </div>
+            })
             productInfo && navigate(PageRoutes.info, { state: { productInfo } })        
         }       
-    }
+    }    
 
     return (
         <Layout>
-            <HomeHeader />
+            <HomeHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
             <Content style={{ position: 'absolute', top: '10vh' }}>
                 <div className="product-list-bg" >
                     <Row gutter={16} style={{ marginLeft: '1rem'}}>
                         {productList}
-                        {/* <Col>
-                            <div className="product-container" style={{ backgroundImage: `url(${food})`}}>
-                                <div className="product-name">
-                                    <AiFillEye key="view" size={20} /> Product
-                                </div>
-                            </div>                            
-                        </Col> */}
-                    </Row> 
-                    {/* <br />
-                    <br />
-                    <Pagination
-                        className="home-pagination"
-                        size="small" 
-                        total={85}
-                        showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                        defaultPageSize={20}
-                        defaultCurrent={1}
-                    />  */}
+                    </Row>
                 </div>       
             </Content>   
         </Layout>
