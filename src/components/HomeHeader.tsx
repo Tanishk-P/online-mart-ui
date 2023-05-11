@@ -57,44 +57,41 @@ function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setS
 
     return (
         <Row>
-            <Col>
-                <div className="home-header">
-                    <div className="title">
-                        <Logo />
-                       <CommonHeader level={2} title='Needs' color={colors.lightGrayColor} margin={'0'}/> 
-                    </div>
-                    <div className="search">
-                        <CommonButton type="text" onClick={() => navigate(PageRoutes.home)}>
-                            <CommonHeader level={5} title={labelConst.PRODUCT_LIST} color={colors.lightGrayColor} margin={'0'} width={'12vw'} />
-                        </CommonButton>
-                        {/* <div style={{ cursor: "pointer" }}>
+            <div className="home-header">
+                <Col offset={1} className="title">
+                    <Logo />
+                    <CommonHeader level={2} title='Needs' color={colors.lightGrayColor} margin={'0'} />
+                </Col>
+                <Col offset={2} className="search">
+                    <CommonButton type="text" onClick={() => navigate(PageRoutes.home)}>
+                        <CommonHeader level={5} title={labelConst.PRODUCT_LIST} color={colors.lightGrayColor} margin={'0'} width={'12vw'} />
+                    </CommonButton>
+                    {/* <div style={{ cursor: "pointer" }}>
                             <Dropdown placement="bottom" overlayStyle={{ zIndex: "3000" }} menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}><AiFillFilter size={25} color={colors.lightGrayColor} /></Dropdown>
                         </div> */}
-                        <Input suffix={<MdSearch size={20} color={colors.darkGray} />} prefix placeholder={labelConst.SEARCH} size="large" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
-                    </div>
-                    <div className="contain-center">                        
-                        { !localStorage.getItem('authToken') ? 
-                        (<div style={{ display: 'flex', alignItems: 'center'}}>
-                            <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
-                                <CommonButton type={"text"} onClick={() => navigate(PageRoutes.login)}> 
-                                    <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_IN}</Typography.Text> 
-                                </CommonButton>
-                            <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }}/>
-                                <CommonButton type={"text"} onClick={() => navigate(PageRoutes.signUp)}> 
-                                    <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_UP}</Typography.Text> 
-                                </CommonButton>
+                    <Input suffix={<MdSearch size={20} color={colors.darkGray} />} prefix placeholder={labelConst.SEARCH} size="large" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                </Col>
+                <Col offset={ !localStorage.getItem("authToken") ? 1 : 2} className="contain-center">
+                    {!localStorage.getItem('authToken') ?
+                        (<div key='no-user' style={{ display: 'flex', alignItems: 'center' }}>
+                            <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }} />
+                            <CommonButton type={"text"} onClick={() => navigate(PageRoutes.login)}>
+                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_IN}</Typography.Text>
+                            </CommonButton>
+                            <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }} />
+                            <CommonButton type={"text"} onClick={() => navigate(PageRoutes.signUp)}>
+                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_UP}</Typography.Text>
+                            </CommonButton>
                         </div>) :
-                        (<div style={{ display: 'flex', alignItems: "center"}}>
-                                    <Typography.Text style={{ marginRight: 10, color: colors.lightGrayColor, fontWeight: 400 }}>Hello, {userDetails?.name}</Typography.Text>                                
-                            <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }}/>     
-                                <CommonButton type={"text"} onClick={() => onLogout()}> 
-                                    <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_OUT}</Typography.Text> 
-                                </CommonButton>
+                        (<div key='user' style={{ display: 'flex', alignItems: "center", position: 'fixed' }}>
+                            <Typography.Text style={{ marginRight: 10, color: colors.lightGrayColor, fontWeight: 400 }}>Hello, {userDetails?.name}</Typography.Text>
+                            <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }} />
+                            <CommonButton type={"text"} onClick={() => onLogout()}>
+                                <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_OUT}</Typography.Text>
+                            </CommonButton>
                         </div>)}
-                                                    
-                    </div>
-                </div>
-            </Col>
+                </Col>
+            </div>
         </Row>
     )
 }
