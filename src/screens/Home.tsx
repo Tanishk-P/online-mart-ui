@@ -27,7 +27,7 @@ function Home() {
         const { ...props } = product;
         
         return (
-            <Col id={props?._id}>
+            <Col id={props?._id} key={props?.name}>
                 <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props)}>
                     <div className="product-name">
                         <AiFillEye key="view" size={20} /> {props.name}
@@ -42,8 +42,12 @@ function Home() {
         function onSelectProduct(productInfo: IProduct) : void {
             console.log('selected product', productInfo);
             !localStorage.getItem('authToken') && notification.warning({
-                message: 'Hey there,',
-                description: 'You have to be signed-in to checkout!'
+                message: 'Sign-In required',
+                description: 
+                <div style={{ display: 'inline-flex', gap: 3}}>To Checkout items,
+                    <div style={{ cursor: 'pointer', color: colors.primaryColor}} onClick={() => navigate(PageRoutes.login)}>{labelConst.LOGIN}</div> or
+                    <div style={{ cursor: 'pointer', color: colors.red }} onClick={() => navigate(PageRoutes.signUp)}>{labelConst.SIGN_UP}</div>
+                </div>
             })
             productInfo && navigate(PageRoutes.info, { state: { productInfo } })        
         }       

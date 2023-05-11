@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { IAppState } from '../store/state';
 import { IUser } from '../models/IUser';
 import { getUserDetails } from '../services/ApiActions';
+import { MdSearch } from 'react-icons/md';
 
 function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setSearchQuery: (query: string) => void }) {
     const navigate = useNavigate();
@@ -69,7 +70,7 @@ function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setS
                         {/* <div style={{ cursor: "pointer" }}>
                             <Dropdown placement="bottom" overlayStyle={{ zIndex: "3000" }} menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}><AiFillFilter size={25} color={colors.lightGrayColor} /></Dropdown>
                         </div> */}
-                        <Input.Search size="large" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+                        <Input suffix={<MdSearch size={20} color={colors.darkGray} />} prefix placeholder={labelConst.SEARCH} size="large" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
                     </div>
                     <div className="contain-center">                        
                         { !localStorage.getItem('authToken') ? 

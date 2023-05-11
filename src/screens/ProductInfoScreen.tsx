@@ -21,13 +21,13 @@ function ProductInfoScreen() {
 
     const location = useLocation();
     const productInfo = location.state.productInfo;
-    console.log('productInfo on new screen', productInfo);
+    // console.log('productInfo on new screen', productInfo);
 
     useEffect(()=> {
         setProductName(productInfo?.name);
         setProductImage(productInfo?.imageUrl);
         setProductPrice(productInfo?.price);
-        setSelectedQuanity(productInfo?.name);
+        setSearchQuery(productInfo?.name);
     }, [productInfo])
 
         const onChange = (value: number | null) => {
