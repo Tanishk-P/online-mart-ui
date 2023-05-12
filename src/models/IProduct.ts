@@ -1,10 +1,10 @@
 export interface IProduct{
-    _id?:string;
+    _id :string;
     _userId?: string;
-    price?:string;
-    name?:string;
-    description?:string;
-    company?:string;
+    price :string;
+    name :string;
+    description :string;
+    company :string;
     category?:string;
-    imageUrl? : string;
+    imageUrl : string;
 }

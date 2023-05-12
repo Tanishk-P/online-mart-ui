@@ -9,37 +9,36 @@ import { colors } from '../utls/Color';
 import CommonButton from '../components/CommonButton';
 import { useLocation } from 'react-router-dom';
 import { orderProduct } from '../services/ApiActions';
+import { useDispatch } from 'react-redux';
+import { ProductDetails } from '../store/ProductDetailsState/ProductDetailsAction';
+import { IProduct } from '../models/IProduct';
+import { useSelector } from 'react-redux';
+import { IAppState } from '../store/state';
 
 function ProductInfoScreen() {
-    const [productName, setProductName] = useState<string>('');
-    const [productImage, setProductImage] = useState<string>('')
-    const [productQuantity, setProductQuantity] = useState<number>(20);
-    const [productPrice, setProductPrice] = useState<number>();
-    const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
-    const [totalPrice, setTotalPrice] = useState(productPrice);
-    const [searchQuery, setSearchQuery] = useState('');
-
+   
     const location = useLocation();
-    const productInfo = location.state.productInfo;
-    // console.log('productInfo on new screen', productInfo);
+    const productId = location.state.productId; 
+
+    const dispatch: any = useDispatch();
+    const product: IProduct = useSelector((state: IAppState) => state.productDetailState);
 
     useEffect(()=> {
-        setProductName(productInfo?.name);
-        setProductImage(productInfo?.imageUrl);
-        setProductPrice(productInfo?.price);
-        setSearchQuery(productInfo?.name);
-    }, [productInfo])
+        dispatch(ProductDetails(productId));
+        setSearchQuery(product.name);
+    }, [dispatch]);
+    
+    const [productQuantity, setProductQuantity] = useState<number>(20);    
+    const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
+    const [totalPrice, setTotalPrice] = useState<string>(product.price);
+    const [searchQuery, setSearchQuery] = useState<string>('');           
 
-        const onChange = (value: number | null) => {
-            if (value !== null && productPrice) {
-               setSelectedQuanity(value); 
-               if (value === 1) {
-                setTotalPrice(productPrice)
-               } else if (value > 1) {
-                setTotalPrice(productPrice * value);
-               }               
-            }
-        };
+    const onChange = (value: number | null) => {
+        if (value !== null) {
+            setSelectedQuanity(value);
+                setTotalPrice(String(Number(product.price) * value));
+        }
+    };    
 
     const _renderQuantitySlider = () => {
         return (
@@ -75,7 +74,7 @@ function ProductInfoScreen() {
                     <InputNumber 
                         readOnly
                         prefix= "₹"
-                        value={selectedQuantity !==1 ? totalPrice : productPrice}
+                        value={totalPrice}
                     />
                 </Col>
             </Row>
@@ -87,15 +86,15 @@ function ProductInfoScreen() {
             <>
                 <Row >
                     <Col span={6}>{labelConst.PRODUCT_CATEGORY}</Col>
-                    <Col>{productInfo?.category}</Col>
+                    <Col>{product.category}</Col>
                 </Row>
                 <Row>
                     <Col span={6}>{labelConst.PRODUCT_COMPANY}</Col>
-                    <Col>{productInfo?.company}</Col>
+                    <Col>{product.company}</Col>
                 </Row>
                 <Row>
                     <Col span={6}>{labelConst.PRODUCT_DESCRIPTION}</Col>
-                    <Col>{productInfo?.description}</Col>
+                    <Col>{product.description}</Col>
                 </Row>             
             </>
             
@@ -110,12 +109,12 @@ function ProductInfoScreen() {
         }
 
         const onOk = () => {
-            if (productInfo?._id && selectedQuantity && totalPrice && productName) {
-                orderProduct(productInfo?._id, selectedQuantity, totalPrice , productName).then(response => {
+            if (product._id && selectedQuantity && totalPrice && product.name) {
+                orderProduct(product._id, selectedQuantity, totalPrice , product.name).then(response => {                    
                 console.log('order successfull', response?.data);
                 notification.success({
                     message: "Order Placed",
-                    description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor}}>Purchased <div style={{ color: colors.primaryColor}}>{productName}</div>, quantity is <div style={{ color: colors.primaryColor}}>{selectedQuantity}</div></Typography.Text>,
+                    description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor}}>Purchased <div style={{ color: colors.primaryColor}}>{product.name}</div>, quantity is <div style={{ color: colors.primaryColor}}>{selectedQuantity}</div></Typography.Text>,
                     style: { position: 'relative', zIndex: 3000}
                 });
                 setModalState(false);
@@ -137,11 +136,11 @@ function ProductInfoScreen() {
                     onOk={() => onOk()}
                     onCancel={() => onCancel()}
                 >        
-                    <CommonHeader level={2} margin={'5px'} title={productName} />
+                    <CommonHeader level={2} margin={'5px'} title={product.name} />
                     <div style={{ marginTop: "12px" }}/>
                     <Row>
                         <Col>{labelConst.CHECKOUT_QUANTITY} : {selectedQuantity}</Col>
-                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹ {selectedQuantity !== 1 ? totalPrice : productPrice} </Col>
+                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹ {totalPrice} </Col>
                     </Row>
                 </Modal>
             </>
@@ -156,14 +155,14 @@ function ProductInfoScreen() {
         <Row gutter={16} style={{ display: "flex", justifyContent: "flex-start", gap: "5vw", width: "100vw", marginLeft: "5vw"}}>
             <Col >
                 <div className='product-image'>
-                    <img src={productImage} alt='food' style={{ width: "450px", height: "450px", objectFit: "cover", borderRadius: "10px" }}/>
+                    <img src={product.imageUrl} alt='food' style={{ width: "450px", height: "450px", objectFit: "cover", borderRadius: "10px" }}/>
                 </div>
             </Col>
             <Col>
                 <div className='info-container'>
-                        <CommonHeader level={1} margin={'5px'} title={productName} />
+                        <CommonHeader level={1} margin={'5px'} title={product.name} />
                     <Divider plain style={{ color: colors.grayColor, borderColor: colors.darkGray }}>{labelConst.PRODUCT_PRICE}</Divider>
-                        <Typography.Title level={3} style={{ color: colors.grayColor, margin: 5}}>₹ {productPrice}</Typography.Title>
+                        <Typography.Title level={3} style={{ color: colors.grayColor, margin: 5}}>₹ {product.price}</Typography.Title>
                     <Divider plain style={{ color: colors.grayColor, borderColor: colors.darkGray }}>{labelConst.PRODUCT_STOCK}</Divider>
                        { _renderQuantitySlider()}
                        <div style={{ marginTop: "12px"}} />
@@ -176,13 +175,6 @@ function ProductInfoScreen() {
                 </div>
             </Col>
         </Row>
-        {/* <Row style={{ position: "absolute", top: "62vh", left: "18vw", display: "flex", justifyContent: "center", padding: "2rem", width: "100vw" }}>
-            <Col>
-               <CommonButton >
-                    Checkout
-               </CommonButton>
-            </Col>
-        </Row> */}
     </Content>
    </Layout>
   )

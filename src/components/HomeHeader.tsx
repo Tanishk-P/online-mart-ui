@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, Col, Divider, Dropdown, Input, MenuProps, Row, Typography } from "antd";
-import { AiFillFilter, AiOutlineUser } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Col, Divider, Dropdown, Input, MenuProps, Row, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
 import CommonButton from "../components/CommonButton";
 import CommonHeader from "../components/CommonHeader";
 import Logo from "../components/Logo";
@@ -13,27 +12,17 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../store/state';
 import { IUser } from '../models/IUser';
-import { getUserDetails } from '../services/ApiActions';
 import { MdSearch } from 'react-icons/md';
 
 function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setSearchQuery: (query: string) => void }) {
-    const navigate = useNavigate();
-    const [userDetails, setUserDetails] = useState<IUser>();
-    const user: IUser | undefined = useSelector((state : IAppState )=> state.userDetailState);
-    const dispatch = useDispatch();
 
-    // console.log('hello', user)          
+    const navigate = useNavigate();
+    const user: IUser= useSelector((state : IAppState )=> state.userDetailState);
+    const dispatch: any = useDispatch();      
 
     useEffect(() => {
-        _fetchUserDetails();
-    }, [])
-
-    const _fetchUserDetails = () => {
-        getUserDetails().then((response) => {
-            // console.log('This is the user details', response.data);            
-            setUserDetails(response?.data);
-        })
-    }
+        dispatch(UserDetails());     
+    }, [dispatch]);
 
     const items: MenuProps['items'] = [
         {
@@ -84,7 +73,7 @@ function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setS
                             </CommonButton>
                         </div>) :
                         (<div key='user' style={{ display: 'flex', alignItems: "center", position: 'fixed' }}>
-                            <Typography.Text style={{ marginRight: 10, color: colors.lightGrayColor, fontWeight: 400 }}>Hello, {userDetails?.name}</Typography.Text>
+                            <Typography.Text style={{ marginRight: 10, color: colors.lightGrayColor, fontWeight: 400 }}>Hello, {user?.name}</Typography.Text>
                             <Divider type="vertical" style={{ height: "4vh", backgroundColor: colors.mediumGrayColor }} />
                             <CommonButton type={"text"} onClick={() => onLogout()}>
                                 <Typography.Text style={{ color: colors.lightGrayColor, fontWeight: 400 }}>{labelConst.SIGN_OUT}</Typography.Text>

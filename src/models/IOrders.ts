@@ -1,6 +1,10 @@
 export interface IOrders {
     productId: string,
     quantity: number,
-    totalPrice: number,
-    productName: string
+    totalAmount: number,
+    productName: string,
+    orderStatus?: string,
+    userId?: string,
+    createdAt?: string,
+    completedAT?: Date 
 }
