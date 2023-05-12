@@ -28,7 +28,7 @@ function Home() {
         
         return (
             <Col id={props?._id} key={props?.name}>
-                <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props)}>
+                <div className="product-container" style={{ backgroundImage: `url(${props.imageUrl})` }} onClick={() => onSelectProduct(props._id)}>
                     <div className="product-name">
                         <AiFillEye key="view" size={20} /> {props.name}
                     </div>
@@ -39,8 +39,8 @@ function Home() {
       });
       setProductList(productList); 
 
-        function onSelectProduct(productInfo: IProduct) : void {
-            console.log('selected product', productInfo);
+        function onSelectProduct(productId: string) : void {
+            console.log('selected product', productId);
             !localStorage.getItem('authToken') && notification.warning({
                 message: 'Sign-In required',
                 description: 
@@ -49,7 +49,7 @@ function Home() {
                     <div style={{ cursor: 'pointer', color: colors.red }} onClick={() => navigate(PageRoutes.signUp)}>{labelConst.SIGN_UP}</div>
                 </div>
             })
-            productInfo && navigate(PageRoutes.info, { state: { productInfo } })        
+            navigate(PageRoutes.info, { state: { productId } })        
         }       
     }    
 
