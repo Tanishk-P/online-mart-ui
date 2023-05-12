@@ -76,15 +76,26 @@ export function getAllProducts() : Promise<ICustomResponse<IProduct[]>> {
     })
 }
 
-export function getProductById(_id: string) : Promise<ICustomResponse<IProduct[]>> {
-    return new Promise <ICustomResponse<IProduct[]>> (function (resolve, reject) {
-        getAllProducts().then(response => {
-            
+export function getProductById(_id: string): Promise<ICustomResponse<IProduct>> {
+    return getAllProducts()
+        .then(({ data: products }) => {
+            const product = products.find((p) => p._id === _id);
+            if (product) {
+                const customResponse: ICustomResponse<IProduct> = {
+                    success: true,
+                    data: product,
+                    error: undefined,
+                };
+                return Promise.resolve(customResponse);
+            } else {
+                return Promise.reject(new Error(`Product with ID ${_id} not found`));
+            }
         })
-    })
+        .catch((error) => Promise.reject(error));
 }
 
-export function orderProduct(productId: string, quantity: number, totalAmount: number, productName: string) : Promise<ICustomResponse<IOrders>> {
+
+export function orderProduct(productId: string, quantity: number, totalAmount: string, productName: string) : Promise<ICustomResponse<IOrders>> {
     return new Promise<ICustomResponse<IOrders>> (function ( resolve, reject) {
         axios({
             headers: {Authorization: localStorage.getItem("authToken")},
@@ -97,6 +108,19 @@ export function orderProduct(productId: string, quantity: number, totalAmount: n
             },
             method: "POST"
         }).then((response: AxiosResponse<ICustomResponse<IOrders>>) => {
+            resolve(response?.data);
+        }).catch((error: Error) => {
+            reject(error);
+        })
+    })
+}
+
+export function getOrderDetails() : Promise<ICustomResponse<IOrders>> {
+    return new Promise<ICustomResponse<IOrders>> (function (resolve, reject) {
+        axios({
+            headers: { Authorization: localStorage.getItem("authToken")},
+            method: 'GET'
+        }).then((response: AxiosResponse<ICustomResponse<IOrders>>) =>{
             resolve(response?.data);
         }).catch((error: Error) => {
             reject(error);

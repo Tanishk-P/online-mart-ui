@@ -10,7 +10,7 @@ export default function UserDetailsReducer(state: IUserDetailState = defaultUser
                 _id: action?.data._id,
                 email: action?.data.email,
                 name: action?.data.name,
-                password: action?.data.name,
+                password: action?.data.password,
                 contact: action?.data.contact,
                 role: action?.data.role
             }
