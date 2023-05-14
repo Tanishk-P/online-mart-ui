@@ -78,24 +78,6 @@ function OrderScreen() {
 
   return (
     <>
-        <Header style={{ backgroundColor: 'white' }}>
-            <Row >
-                <Col>
-                    <CommonHeader level={1} margin={'0.5rem'} color={"rgb(0 0 0 / 59%)"} title={labelConst.ADMIN_SCREEN} />
-                </Col>
-                <Col offset={14}>
-                    <div className='contain-center' >
-                        <CommonButton type='text' onClick={() => navigate(PageRoutes.admin)}>
-                            <Typography.Text style={{color: "rgb(0 0 0 / 59%)", fontWeight: 400}} >Sales</Typography.Text>
-                        </CommonButton>
-                        <Divider type='vertical' style={{ backgroundColor: "rgb(0 0 0 / 59%)" , height: '1.2rem'}} />
-                        <CommonButton type='text'onClick={() => navigate(PageRoutes.home)}> 
-                            <Typography.Text style={{color: "rgb(0 0 0 / 59%)", fontWeight: 400}} >Sign Out</Typography.Text>
-                        </CommonButton> 
-                    </div>
-                </Col>
-            </Row>
-        </Header>
         <Content style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "3.5rem" }}>
             <Table bordered dataSource={data} columns={columns} />                
         </Content>

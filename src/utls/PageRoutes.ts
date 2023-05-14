@@ -5,6 +5,7 @@ interface IPageRoutes {
     info: string,
     admin: string,
     adminOrder: string,
+    adminProduct: string
 }
 
 export const PageRoutes: IPageRoutes = {
@@ -12,6 +13,7 @@ export const PageRoutes: IPageRoutes = {
     login: "/login",
     signUp: "/sign-up",
     info: "/info",
-    admin: "/admin",
+    admin: "/admin/sales",
     adminOrder: "/admin/orders",
+    adminProduct: "/admin/productInfo"
 } 
