@@ -8,6 +8,9 @@ import AdminScreen from './screens/AdminScreen';
 import OrderScreen from './screens/OrderScreen';
 import { Provider } from 'react-redux';
 import store from './store/Store';
+import AdminProductInfo from './screens/AdminProductSrceen';
+import AdminHeader from './components/AdminHeader';
+
 
 function App() {
   return (
@@ -19,11 +22,24 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/sign-up' element={<Register />} />
           <Route path='/info' element={<ProductInfoScreen />} />
-          <Route path='/admin' element={<AdminScreen />} />
-          <Route path='/admin/orders' element={<OrderScreen />} />
+          <Route path='/admin/*' element={<AdminRoutes />} />
         </Routes>
       </BrowserRouter>
     </Provider>
+  );
+}
+
+function AdminRoutes() {
+  return (
+    <>
+      <AdminHeader />
+      <Routes>
+        <Route path='/' element={<OrderScreen />} />
+        <Route path='/sales' element={<AdminScreen />} />
+        <Route path='/orders' element={<OrderScreen />} />
+        <Route path='/productInfo' element={<AdminProductInfo />} />
+      </Routes>
+    </>
   );
 }
 
