@@ -30,7 +30,7 @@ function Login() {
             message.success('Login successfull')
             getUserDetails().then(response => {
               // console.log('user role is', response?.data?.role);
-              { response?.data?.role == 1 ? navigate(PageRoutes.admin) : navigate(PageRoutes.home) } 
+              { response?.data?.role == 1 ? navigate(PageRoutes.adminOrder) : navigate(PageRoutes.home) } 
             })
           }          
         })                 
