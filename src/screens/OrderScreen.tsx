@@ -1,16 +1,21 @@
 import { Col, Divider, Row, Table, Typography } from 'antd'
 import { Content, Header } from 'antd/es/layout/layout'
-import React from 'react'
-import CommonHeader from '../components/CommonHeader'
-import { colors } from '../utls/Color'
-import CommonButton from '../components/CommonButton'
+import React, { useState, useEffect } from 'react'
 import * as labelConst from '../utls/Labels'
-import { useNavigate } from 'react-router-dom'
-import { PageRoutes } from '../utls/PageRoutes'
 import { ColumnsType } from 'antd/es/table'
+import { useDispatch } from 'react-redux'
+import { OrderDetails } from '../store/OrderDetailsState/OrderDetailsActions'
+import { IOrderDetailsState } from '../store/OrderDetailsState/OrderDetailsState'
+import { useSelector } from 'react-redux'
+import { IAppState } from '../store/state'
 
 function OrderScreen() {
-    const navigate = useNavigate();
+    const dispatch: any = useDispatch();
+    const orders: IOrderDetailsState = useSelector((state: IAppState) => state.orderDetailsState)
+    
+    useEffect(() => {    
+        dispatch(OrderDetails());        
+    }, [dispatch]);     
 
     interface DataType {
         key: string;
@@ -40,41 +45,19 @@ function OrderScreen() {
             title: 'Price',
             dataIndex: 'totalPrice',
             key: 'totalPrice',
-            render: (text) => <>$ {text}</>,
+            render: (text) => `₹ ${text}`
         }
     ];
 
-    const data: DataType[] = [
-        {
-            key: '1',
-            customerName: 'John Brown',
-            product: 'Toast',
-            quantity: 10,
-            totalPrice: 320,
-        },
-        {
-            key: '1',
-            customerName: 'John Brown',
-            product: 'Toast',
-            quantity: 10,
-            totalPrice: 320,
-        },
-        {
-            key: '1',
-            customerName: 'John Brown',
-            product: 'Toast',
-            quantity: 10,
-            totalPrice: 320,
-        },
-        {
-            key: '1',
-            customerName: 'John Brown',
-            product: 'Toast',
-            quantity: 10,
-            totalPrice: 320,
-        },
-        
-    ]
+    const data: DataType[] = orders.orderDetails.map((order) => {
+        return {
+            customerName: order.userName,
+            key: order.productId,
+            product: order.productName,
+            quantity: order.quantity,
+            totalPrice: order.totalAmount
+        }
+    })
 
   return (
     <>
