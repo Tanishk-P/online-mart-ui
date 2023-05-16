@@ -74,7 +74,7 @@ function ProductInfoScreen() {
                     <InputNumber 
                         readOnly
                         prefix= "₹"
-                        value={totalPrice}
+                        value={selectedQuantity !== 1 ? totalPrice : product.price}
                     />
                 </Col>
             </Row>
@@ -140,7 +140,7 @@ function ProductInfoScreen() {
                     <div style={{ marginTop: "12px" }}/>
                     <Row>
                         <Col>{labelConst.CHECKOUT_QUANTITY} : {selectedQuantity}</Col>
-                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹ {totalPrice} </Col>
+                        <Col offset={4}>{labelConst.CHECKOUT_PRICE} : ₹ { selectedQuantity !== 1 ? totalPrice : product.price} </Col>
                     </Row>
                 </Modal>
             </>
