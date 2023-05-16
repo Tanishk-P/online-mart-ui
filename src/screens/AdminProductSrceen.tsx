@@ -22,12 +22,12 @@ function AdminProductInfo() {
   const dispatch: any = useDispatch();
   const products: IProductState = useSelector((state: IAppState) => state.productState);
   const [search , setSearch] = useState<string>('');
-  const [fiteredData, setFilteredData] = useState<IProduct>();
+  const [filteredData, setFilteredData] = useState<IProduct[]>([]);
   const [modelState, setModelState] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(Products());
-  }, [dispatch]);  
+  }, [dispatch, products]);  
 
   interface DataType {
     key: string,
@@ -79,13 +79,28 @@ function AdminProductInfo() {
     }
   })
 
-  function handleChange(value: string): void {
-    setSearch(value);
-    searchProducts(search).then((response) => {
-      setFilteredData(response?.data);
-      console.log(response?.data)
-    })
+  function handleChange(value: string): void { 
+    setSearch(value); 
+    searchProducts(value.toLowerCase()).then((response) => {      
+      setFilteredData(response?.data || []);
+    }).catch((error) => {
+      console.error(error);
+      setFilteredData([]);
+    });
   }
+
+  const newData: DataType[] = data.filter((product) =>
+    product.product.toLowerCase().includes(search.toLowerCase())
+  ).map((product) => {
+    return {
+      key: product.key,
+      product: product.product,
+      company: product.company,
+      category: product.category,
+      price: product.price,
+      actions: 'edit/delete'
+    };
+  });
 
   function renderAdd() {
     
@@ -109,7 +124,7 @@ function AdminProductInfo() {
           {renderAdd()}
       </Header>
         <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "1rem 3.5rem" }}>
-          <Table bordered dataSource={data} columns={columns} />                            
+          <Table bordered dataSource={newData} columns={columns} scroll={{ y: "60vh"}} />                            
         </Content>
     </>
   )

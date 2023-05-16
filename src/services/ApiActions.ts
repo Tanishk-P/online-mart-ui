@@ -7,6 +7,7 @@ import { IIntegration } from "../models/IIntegration"
 import { IProduct } from "../models/IProduct"
 import { IOrders } from "../models/IOrders"
 import { IOrderDetails } from "../models/IOrderDetails"
+import { IProductState } from "../store/ProductState/ProductState"
 
 export function login(email: string, password: string) : Promise<ICustomResponse<ILoginResult>> {
     return new Promise<ICustomResponse<ILoginResult>>( function( resolve, reject){
@@ -130,13 +131,13 @@ export function getOrderDetails() : Promise<ICustomResponse<IOrderDetails[]>> {
     })
 }
 
-export function searchProducts(key: string) : Promise<ICustomResponse<IProduct>> {
-    return new Promise<ICustomResponse<IProduct>> (function (resolve, reject) {
+export function searchProducts(key: string) : Promise<ICustomResponse<IProduct[]>> {
+    return new Promise<ICustomResponse<IProduct[]>> (function (resolve, reject) {
         axios({
             headers: {Authorization: localStorage.getItem("authToken")},
             baseURL: BASE_URL + apiEnviornment.productSearch.replace(":key", key),
             method: 'GET'
-        }).then((response: AxiosResponse<ICustomResponse<IProduct>>) => {
+        }).then((response: AxiosResponse<ICustomResponse<IProduct[]>>) => {
             resolve(response?.data);
         }).catch((error: Error) => {
             reject(error);
@@ -144,13 +145,13 @@ export function searchProducts(key: string) : Promise<ICustomResponse<IProduct>>
     })
 }
 
-export function addProducts(productName: string, company: string, category: string, price: string, description: string, imageUrl: string) : Promise<ICustomResponse<IProduct>> {
+export function addProducts(name: string, company: string, category: string, price: string, description: string, imageUrl: string) : Promise<ICustomResponse<IProduct>> {
     return new Promise<ICustomResponse<IProduct>> (function (resolve, reject) {
         axios({
             headers: {Authorization: localStorage.getItem("authToken")},
             url: BASE_URL + apiEnviornment.addProducts,
             data: {
-                productName,
+                name,
                 company,
                 category,
                 price,

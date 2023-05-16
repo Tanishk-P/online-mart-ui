@@ -17,7 +17,7 @@ function Home() {
 
     useEffect(() => {
         _fetchAllProducts();
-    }, [searchQuery])
+    }, [searchQuery, productList])
 
     async function _fetchAllProducts() {
       const response = await getAllProducts();

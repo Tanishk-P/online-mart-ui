@@ -21,7 +21,7 @@ export const apiEnviornment: IApiEnvironment = {
     // PRODUCTS 
     productList: "/customer/products",
     products: "/products",
-    addProducts: "/products/add-products",
+    addProducts: "/products/add-product",
     orderProduct: "/orders/accept-orders",
     orderDetails: "/orders/order-detail",
     productSearch: "/products/search/:key"
