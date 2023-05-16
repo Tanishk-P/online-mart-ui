@@ -1,4 +1,4 @@
-import { Col, Divider, Modal, Row } from 'antd';
+import { Col, Divider, Modal, Row, Typography, notification } from 'antd';
 import React, { useState, useEffect } from 'react';
 import * as labelConst from '../utls/Labels';
 import CommonHeader from '../components/CommonHeader';
@@ -7,6 +7,7 @@ import { BiCategory, BiLink } from 'react-icons/bi';
 import CommonInput from '../components/CommonInput';
 import { MdCurrencyRupee, MdSubtitles, MdTitle } from 'react-icons/md';
 import { addProducts } from '../services/ApiActions';
+import { colors } from '../utls/Color';
 
 function AddProductModal({ modelOpen, setModel} : { modelOpen: boolean, setModel: (arg0: boolean) => void} ) {
     const [productName, setProductName] = useState<string>('');
@@ -18,13 +19,24 @@ function AddProductModal({ modelOpen, setModel} : { modelOpen: boolean, setModel
 
     function _addProduct() {
         addProducts(productName, productCompany, productCategory, productPrice, productDescription, imageURL).then(response => {
-            console.log('response for add',  response?.data);
+          notification.success({
+            placement: "bottomRight",
+            message: "New Product Added",
+            description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor}}>{productName} has been added to the list.</Typography.Text>,
+            style: { position: 'relative', zIndex: 3000}
+        });
         }) 
     }    
 
     const handleOk = () => {
         setModel(false);
         _addProduct();
+        setImageURL("");
+        setProductName("");
+        setProductCategory("");
+        setProductCompany("");
+        setProductDescription("");
+        setProductPrice("");
       };
     
       const handleCancel = () => {

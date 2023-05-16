@@ -62,7 +62,7 @@ function OrderScreen() {
   return (
     <>
         <Content style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "3.5rem" }}>
-            <Table bordered dataSource={data} columns={columns} />                
+            <Table bordered dataSource={data} columns={columns} scroll={{ y: "60vh" }} />                
         </Content>
     </>
   )
