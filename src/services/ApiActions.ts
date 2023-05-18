@@ -7,7 +7,7 @@ import { IIntegration } from "../models/IIntegration"
 import { IProduct } from "../models/IProduct"
 import { IOrders } from "../models/IOrders"
 import { IOrderDetails } from "../models/IOrderDetails"
-import { IProductState } from "../store/ProductState/ProductState"
+import { ISales } from "../models/ISales"
 
 export function login(email: string, password: string) : Promise<ICustomResponse<ILoginResult>> {
     return new Promise<ICustomResponse<ILoginResult>>( function( resolve, reject){
@@ -160,6 +160,21 @@ export function addProducts(name: string, company: string, category: string, pri
             },
             method: "POST"
         }).then((response: AxiosResponse<ICustomResponse<IProduct>>) => {
+            resolve(response?.data);
+        }).catch((error: Error) => {
+            reject(error);
+        })
+    })
+}
+
+export function getAdminSales(startDate: string, endDate: string) : Promise<ICustomResponse<ISales[]>> {
+    return new Promise<ICustomResponse<ISales[]>> (function (resolve, reject) {
+        axios({
+            headers: {Authorization: localStorage.getItem("authToken")},
+            params: {startDate: startDate , endDate: endDate},
+            url: BASE_URL + apiEnviornment.adminSales,
+            method: "GET"
+        }).then((response: AxiosResponse<ICustomResponse<ISales[]>>) =>{
             resolve(response?.data);
         }).catch((error: Error) => {
             reject(error);

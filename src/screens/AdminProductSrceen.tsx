@@ -27,7 +27,7 @@ function AdminProductInfo() {
 
   useEffect(() => {
     dispatch(Products());
-  }, [dispatch, products]);  
+  }, [dispatch]);  
 
   interface DataType {
     key: string,
@@ -124,7 +124,7 @@ function AdminProductInfo() {
           {renderAdd()}
       </Header>
         <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "1rem 3.5rem" }}>
-          <Table bordered dataSource={newData} columns={columns} scroll={{ y: "60vh"}} />                            
+          <Table bordered dataSource={newData} columns={columns} scroll={{ y: "50vh"}} />                            
         </Content>
     </>
   )

@@ -22,3 +22,9 @@ export function validateContact(contact: number | undefined): boolean {
     const contactValidator = new RegExp(/^\+?[0-9]{1,3}[-\s\.]?([0-9]{3,4}[-\s\.]?){2}[0-9]{3,4}$/g);
     return contactValidator.test(contactString);
 }
+
+export function compareDates(a: string, b: string) {
+    const dateA = new Date(a).getTime();
+    const dateB = new Date(b).getTime();
+    return dateB - dateA;
+  };
