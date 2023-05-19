@@ -8,13 +8,13 @@ interface IApiEnvironment {
     productList: string;
     products: string;
     addProducts: string;
-    orderProduct: string;   
+    orderProduct: string;
     orderDetails: string;
     productSearch: string;
     adminSales: string;
 }
 
-export const apiEnviornment: IApiEnvironment = {    
+export const apiEnviornment: IApiEnvironment = {
     register: "/signup",
     login: "/login",
     getUserDetails: "/user/getUserDetails",
@@ -25,4 +25,4 @@ export const apiEnviornment: IApiEnvironment = {
     orderDetails: "/orders/order-detail",
     productSearch: "/products/search/:key",
     adminSales: "/user/getAdminSellDetails",
-}
+};

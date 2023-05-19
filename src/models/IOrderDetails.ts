@@ -7,5 +7,5 @@ export interface IOrderDetails {
     userId?: string,
     name: string,
     createdAt: string,
-    completedAT?: string   
+    completedAT?: string
 }

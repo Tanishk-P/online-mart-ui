@@ -7,7 +7,7 @@ import { ICustomResponse } from "../../models/ICustomResponse";
 import { GET_PRODUCTS } from "./ProductActionTypes";
 
 export function Products() {
-    return (dispatch: Dispatch<ICustomAction<IProduct[]>> ) => {
+    return (dispatch: Dispatch<ICustomAction<IProduct[]>>) => {
         getAllProducts().then((response: ICustomResponse<IProduct[]>) => {
             dispatch({
                 type: GET_PRODUCTS,

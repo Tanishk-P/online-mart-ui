@@ -13,12 +13,11 @@ type CommonHeaderProps = {
 
 const { Title } = Typography;
 
-
-function CommonHeader(props: (TextProps & CommonHeaderProps)): JSX.Element{
+function CommonHeader(props: (TextProps & CommonHeaderProps)): JSX.Element {
     const { title, level, color = colors.grayColor, margin, padding, width } = props;
-    return(
+    return (
         <>
-            <Title level={level} style={{ color : color, margin: margin, padding: padding, width: width}}>{title}</Title>
+            <Title level={level} style={{ color: color, margin: margin, padding: padding, width: width }}>{title}</Title>
         </>
     );
 }

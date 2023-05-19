@@ -17,32 +17,32 @@ import { MdSearch } from 'react-icons/md';
 function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setSearchQuery: (query: string) => void }) {
 
     const navigate = useNavigate();
-    const user: IUser= useSelector((state : IAppState )=> state.userDetailState);
-    const dispatch: any = useDispatch();      
+    const user: IUser = useSelector((state: IAppState) => state.userDetailState);
+    const dispatch: any = useDispatch();
 
     useEffect(() => {
-        dispatch(UserDetails());     
+        dispatch(UserDetails());
     }, [dispatch]);
 
     const items: MenuProps['items'] = [
         {
-          key: '1',
-          label: 'Product 1',
+            key: '1',
+            label: 'Product 1',
         },
         {
-          key: '2',
-          label: 'Product 2',
+            key: '2',
+            label: 'Product 2',
         },
         {
-          key: '3',
-          label: 'Product 3',
+            key: '3',
+            label: 'Product 3',
         },
-      ];
+    ];
 
-      const onLogout = () => {
+    const onLogout = () => {
         localStorage.removeItem('authToken');
         window.location.reload();
-      }
+    }
 
     return (
         <Row>
@@ -60,7 +60,7 @@ function HomeHeader({ searchQuery, setSearchQuery }: { searchQuery: string, setS
                         </div> */}
                     <Input suffix={<MdSearch size={20} color={colors.darkGray} />} prefix placeholder={labelConst.SEARCH} size="large" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 </Col>
-                <Col offset={ !localStorage.getItem("authToken") ? 1 : 2} className="contain-center">
+                <Col offset={!localStorage.getItem("authToken") ? 1 : 2} className="contain-center">
                     {!localStorage.getItem('authToken') ?
                         (<div key='no-user' style={{ display: 'flex', alignItems: 'center' }}>
                             <Divider type="vertical" style={{ margin: 0, height: "4vh", backgroundColor: colors.mediumGrayColor }} />
