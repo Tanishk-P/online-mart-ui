@@ -33,12 +33,16 @@ export const CHECKOUT_QUANTITY: string = "Total Quantity";
 export const ADMIN_SCREEN: string = "Welcome, Admin!";
 export const SEARCH: string = "Search items";
 export const ADD_PRODUCT: string = "Add Product";
+export const EDIT_PRODUCT: string = "Edit Product";
+export const VIEW_PRODUCT: string = "View Product";
+export const DELETE_PRODUCT: string = "Delete Product";
 export const PRODUCT_NAME: string = "Product Name";
 export const CATEGORY: string = "Product Category";
 export const COMPANY: string = "Company";
 export const DESCRIPTION: string = "Product Description";
 export const PRICE: string = "Product Price";
 export const IMAGE_URL: string = "Product Image Url";
+
 
 
 
