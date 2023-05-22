@@ -46,8 +46,8 @@ function AddProductModal({ modelOpen, setModel }: { modelOpen: boolean, setModel
 
   return (
     <>
-      <Modal open={modelOpen} onOk={handleOk} onCancel={handleCancel} okText={labelConst.ADD_PRODUCT} >
-        <CommonHeader level={3} title={labelConst.ADD_PRODUCT} />
+      <Modal title={labelConst.ADD_PRODUCT} open={modelOpen} onOk={handleOk} onCancel={handleCancel} okText={labelConst.ADD_PRODUCT} >
+        {/* <CommonHeader level={3} title={labelConst.ADD_PRODUCT} /> */}
         <CommonInput type='text' placeholder={labelConst.PRODUCT_NAME} prefix={<MdTitle />} value={productName} handleChangeText={(text: string) => {
           setProductName(text);
         }} />
