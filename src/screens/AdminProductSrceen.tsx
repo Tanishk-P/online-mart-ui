@@ -16,14 +16,18 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { AiFillEye } from 'react-icons/ai';
 import { searchProducts } from '../services/ApiActions';
 import { IProduct } from '../models/IProduct';
-import AddProductModal from './AddProductModal';
+import AddProductModal from '../productModals/AddProductModal';
+import ViewProductModal from '../productModals/ViewProductModal';
+import EditProductModal from '../productModals/EditProductModal';
 
 function AdminProductInfo() {
   const dispatch: any = useDispatch();
   const products: IProductState = useSelector((state: IAppState) => state.productState);
   const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<IProduct[]>([]);
-  const [modelState, setModelState] = useState<boolean>(false);
+  const [addModelState, setAddModelState] = useState<boolean>(false);
+  const [viewModelState, setViewModelState] = useState<boolean>(false);
+  const [editModelState, setEditModelState] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(Products());
@@ -42,31 +46,37 @@ function AdminProductInfo() {
     {
       title: "Product",
       dataIndex: "product",
-      key: "product"
+      key: "product",
     },
     {
       title: "Company",
       dataIndex: "company",
-      key: "company"
+      key: "company",
     },
     {
       title: "Category",
       dataIndex: "category",
-      key: "category"
+      key: "category",
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (price) => `₹ ${price}`
+      render: (price) => `₹ ${price}`,
     },
     {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
-      render: () => <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}><Button type='primary' icon={<MdEdit size={18} />} /><Button icon={<AiFillEye size={18} />} /> <Button icon={<FaTrashAlt size={18} />} danger /></div>
+      render: () => (
+        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+          {renderEdit()}
+          {renderView()}
+          <Button icon={<FaTrashAlt size={18} />} danger />
+        </div>
+      ),
     },
-  ]
+  ];
 
   const data: DataType[] = products.productList.map((product) => {
     return {
@@ -106,10 +116,26 @@ function AdminProductInfo() {
 
     return (
       <>
-        <CommonButton backgroundColor={colors.grayColor} onClick={() => setModelState(true)}>
+        <CommonButton backgroundColor={colors.grayColor} onClick={() => setAddModelState(true)}>
           <Typography.Text style={{ color: colors.lightGrayColor }}>Add Product</Typography.Text>
         </CommonButton>
-        <AddProductModal modelOpen={modelState} setModel={setModelState} />
+        <AddProductModal modelOpen={addModelState} setModel={setAddModelState} />
+      </>
+    )
+  }
+
+  function renderView(): JSX.Element {
+    return (
+      <>
+        <Button icon={<AiFillEye size={18}/>} onClick={() => setViewModelState(true)} /> 
+      </>
+    )
+  }
+
+  function renderEdit(): JSX.Element {
+    return (
+      <>
+        <Button type="primary" icon={<MdEdit size={18} onClick={() => setEditModelState(true)} />} />
       </>
     )
   }
@@ -126,6 +152,8 @@ function AdminProductInfo() {
       <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "1rem 3.5rem" }}>
         <Table bordered dataSource={newData} columns={columns} scroll={{ y: "50vh" }} />
       </Content>
+      <ViewProductModal modelOpen={viewModelState} setModel={setViewModelState} />
+      <EditProductModal modelOpen={editModelState} setModel={setEditModelState} />
     </>
   )
 }
