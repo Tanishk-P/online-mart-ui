@@ -2,8 +2,8 @@ import { ICustomAction } from "../../models/ICustomAction";
 import { IProductDetailState, defaultProductDetailsState } from "./ProductDetailsState";
 import { GET_PRODUCT } from "./ProductDetailsTypes";
 
-export default function ProductDetailsReducer( state: IProductDetailState = defaultProductDetailsState, action: ICustomAction<any>): IProductDetailState {
-   switch (action.type) {
+export default function ProductDetailsReducer(state: IProductDetailState = defaultProductDetailsState, action: ICustomAction<any>): IProductDetailState {
+    switch (action.type) {
         case GET_PRODUCT:
             return {
                 ...state,
@@ -15,7 +15,7 @@ export default function ProductDetailsReducer( state: IProductDetailState = defa
                 company: action?.data.company,
                 category: action?.data.category
             }
-        default: 
+        default:
             return state
-   }
+    }
 }

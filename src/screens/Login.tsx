@@ -4,7 +4,7 @@ import CommonHeader from '../components/CommonHeader';
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
 import { RiLockPasswordFill } from 'react-icons/ri'
-import * as labelConst from "../utls/Labels" 
+import * as labelConst from "../utls/Labels"
 import { Link, useNavigate } from 'react-router-dom';
 import { PageRoutes } from '../utls/PageRoutes';
 import { colors } from '../utls/Color';
@@ -22,22 +22,22 @@ function Login() {
   const [error, setError] = useState<IInputError[]>([]);
   const navigate = useNavigate();
 
-  function onLogin() : void {
+  function onLogin(): void {
     console.log('clicked login', email, password)
     if (validation()) {
       login(email, password).then(response => {
         if (response?.success) {
-            message.success('Login successfull')
-            getUserDetails().then(response => {
-              // console.log('user role is', response?.data?.role);
-              { response?.data?.role == 1 ? navigate(PageRoutes.adminOrder) : navigate(PageRoutes.home) } 
-            })
-          }          
-        })                 
-    }        
-  } 
+          message.success('Login successfull')
+          getUserDetails().then(response => {
+            // console.log('user role is', response?.data?.role);
+            { response?.data?.role == 1 ? navigate(PageRoutes.adminOrder) : navigate(PageRoutes.home) }
+          })
+        }
+      })
+    }
+  }
 
-  function validation() : boolean {
+  function validation(): boolean {
     let validated = true;
     const validationError: IInputError[] = Object.assign([], error)
     if (!validateEmail(email)) {
@@ -49,13 +49,13 @@ function Login() {
     }
     if (password?.trim?.() === '') {
       validationError.push({
-          errorText: 'Please enter valid password',
-          name: 'password',
+        errorText: 'Please enter valid password',
+        name: 'password',
       })
       validated = false;
-  }
+    }
     setError(validationError);
-    validationError && message.error('Something went wrong');    
+    validationError && message.error('Something went wrong');
     return validated;
   }
 
@@ -64,28 +64,28 @@ function Login() {
       <Row>
         <Col offset={8}>
           <div className='container'>
-              <div className='contain-center-with-gap' onClick={() => navigate(PageRoutes.home)} style={{ cursor: "pointer"}}>
-                <Logo />
-                <CommonHeader level={1} title={labelConst.NEEDS} />
-              </div>
-              <Typography.Text className='contain-center'>{labelConst.WELCOME}</Typography.Text>
-              <CommonInput status={getErrorText('email', error) ? 'error' : ''} errorText={getErrorText('email', error)} label={labelConst.EMAIL} placeholder={labelConst.LOGIN_EMAIL} value={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
-                setEmail(text);
-                setError([]);
-              }} />
-              <CommonInput status={getErrorText('password', error) ? 'error' : ''} errorText={getErrorText('password', error)} label={labelConst.PASSWORD} placeholder={labelConst.LOGIN_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill /> } handleChangeText={(text: string) => {
-                SetPassword(text);
-                setError([]);
-              }} />
-              <div style={{ marginTop: 30 }}>
-                <CommonButton type='primary' block onClick={() => onLogin()}>{labelConst.LOGIN}</CommonButton>
-              </div>
-              <div style={{ marginTop: 30, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                {labelConst.SIGNUP_MSG} 
-                <Link to={PageRoutes.signUp}>
-                  <Typography style={{ fontWeight: '400', color: colors.primaryColor, cursor: 'pointer', paddingLeft: 4 }} >{labelConst.REGISTER}!</Typography>  
-                </Link>
-              </div>
+            <div className='contain-center-with-gap' onClick={() => navigate(PageRoutes.home)} style={{ cursor: "pointer" }}>
+              <Logo />
+              <CommonHeader level={1} title={labelConst.NEEDS} />
+            </div>
+            <Typography.Text className='contain-center'>{labelConst.WELCOME}</Typography.Text>
+            <CommonInput status={getErrorText('email', error) ? 'error' : ''} errorText={getErrorText('email', error)} label={labelConst.EMAIL} placeholder={labelConst.LOGIN_EMAIL} value={email} type='email' prefix={<SiGmail />} handleChangeText={(text: string) => {
+              setEmail(text);
+              setError([]);
+            }} />
+            <CommonInput status={getErrorText('password', error) ? 'error' : ''} errorText={getErrorText('password', error)} label={labelConst.PASSWORD} placeholder={labelConst.LOGIN_PASSWORD} value={password} type='password' prefix={<RiLockPasswordFill />} handleChangeText={(text: string) => {
+              SetPassword(text);
+              setError([]);
+            }} />
+            <div style={{ marginTop: 30 }}>
+              <CommonButton type='primary' block onClick={() => onLogin()}>{labelConst.LOGIN}</CommonButton>
+            </div>
+            <div style={{ marginTop: 30, display: "flex", justifyContent: "center", alignItems: "center" }}>
+              {labelConst.SIGNUP_MSG}
+              <Link to={PageRoutes.signUp}>
+                <Typography style={{ fontWeight: '400', color: colors.primaryColor, cursor: 'pointer', paddingLeft: 4 }} >{labelConst.REGISTER}!</Typography>
+              </Link>
+            </div>
           </div>
         </Col>
       </Row>
