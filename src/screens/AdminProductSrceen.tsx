@@ -26,7 +26,7 @@ function AdminProductInfo() {
   const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<IProduct[]>([]);
   const [addModelState, setAddModelState] = useState<boolean>(false);
-  const [viewModelState, setViewModelState] = useState<boolean>(false);
+  const [viewModelState, setViewModelState] = useState<boolean>(true);
   const [editModelState, setEditModelState] = useState<boolean>(false);
 
   useEffect(() => {
@@ -68,13 +68,15 @@ function AdminProductInfo() {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
-      render: () => (
-        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-          {renderEdit()}
-          {renderView()}
-          <Button icon={<FaTrashAlt size={18} />} danger />
-        </div>
-      ),
+      render: (text, record, index) => {
+        return (
+          <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+            {renderEdit()}
+            {renderView()}
+            <Button icon={<FaTrashAlt size={18} />} danger />
+          </div>
+        )
+      }
     },
   ];
 
@@ -85,7 +87,7 @@ function AdminProductInfo() {
       company: product.company,
       category: product.category,
       price: product.price,
-      actions: 'edit/delete'
+      actions: 'edit/delete',
     }
   })
 
@@ -127,7 +129,7 @@ function AdminProductInfo() {
   function renderView(): JSX.Element {
     return (
       <>
-        <Button icon={<AiFillEye size={18}/>} onClick={() => setViewModelState(true)} /> 
+        <Button icon={<AiFillEye size={18} />} onClick={() => setViewModelState(true)} />
       </>
     )
   }
