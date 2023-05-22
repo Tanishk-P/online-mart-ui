@@ -7,7 +7,7 @@ import { GET_PRODUCT } from "./ProductDetailsTypes";
 import { SET_ERROR } from "../RootActionTypes";
 
 export function ProductDetails(productId: string) {
-    return (dispatch : Dispatch<ICustomAction<IProduct>>) => {
+    return (dispatch: Dispatch<ICustomAction<IProduct>>) => {
         getProductById(productId).then((response: ICustomResponse<IProduct>) => {
             dispatch({
                 type: GET_PRODUCT,

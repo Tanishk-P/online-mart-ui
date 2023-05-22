@@ -1,4 +1,4 @@
 export interface ISales {
-    totalAmount : string,
-    date : string
+    totalAmount: string,
+    date: string
 }

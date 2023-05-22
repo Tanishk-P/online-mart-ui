@@ -9,8 +9,8 @@ import { IOrders } from "../models/IOrders"
 import { IOrderDetails } from "../models/IOrderDetails"
 import { ISales } from "../models/ISales"
 
-export function login(email: string, password: string) : Promise<ICustomResponse<ILoginResult>> {
-    return new Promise<ICustomResponse<ILoginResult>>( function( resolve, reject){
+export function login(email: string, password: string): Promise<ICustomResponse<ILoginResult>> {
+    return new Promise<ICustomResponse<ILoginResult>>(function (resolve, reject) {
         axios({
             url: BASE_URL + apiEnviornment.login,
             data: {
@@ -19,7 +19,7 @@ export function login(email: string, password: string) : Promise<ICustomResponse
             },
             method: 'POST'
         }).then((response: AxiosResponse<ICustomResponse<ILoginResult>>) => {
-            const accessAuth = response.data.data.accessAuth; 
+            const accessAuth = response.data.data.accessAuth;
             localStorage.setItem('authToken', accessAuth);
             resolve(response.data);
         }).catch((error: Error) => {
@@ -28,8 +28,8 @@ export function login(email: string, password: string) : Promise<ICustomResponse
     })
 }
 
-export function register(email: string, name: string, contact: number, password: string ) : Promise<ICustomResponse<IIntegration>> {
-    return new Promise<ICustomResponse<IIntegration>>( function ( resolve, reject) {
+export function register(email: string, name: string, contact: number, password: string): Promise<ICustomResponse<IIntegration>> {
+    return new Promise<ICustomResponse<IIntegration>>(function (resolve, reject) {
         axios({
             url: BASE_URL + apiEnviornment.register,
             data: {
@@ -40,7 +40,7 @@ export function register(email: string, name: string, contact: number, password:
             },
             method: 'POST'
         }).then((response: AxiosResponse<ICustomResponse<IIntegration>>) => {
-            const accessAuth = response.data.data.accessAuth; 
+            const accessAuth = response.data.data.accessAuth;
             localStorage.setItem('authToken', accessAuth);
             resolve(response.data);
         }).catch((error: Error) => {
@@ -49,8 +49,8 @@ export function register(email: string, name: string, contact: number, password:
     })
 }
 
-export function getUserDetails() : Promise<ICustomResponse<IUser>> {
-    return new Promise<ICustomResponse<IUser>> (function ( resolve, reject) {
+export function getUserDetails(): Promise<ICustomResponse<IUser>> {
+    return new Promise<ICustomResponse<IUser>>(function (resolve, reject) {
         axios({
             headers: {
                 Authorization: localStorage.getItem('authToken')
@@ -59,19 +59,19 @@ export function getUserDetails() : Promise<ICustomResponse<IUser>> {
             method: 'GET'
         }).then((response: AxiosResponse<ICustomResponse<IUser>>) => {
             resolve(response.data);
-        }).catch((error: Error) =>{
+        }).catch((error: Error) => {
             reject(error);
         })
     })
 }
 
-export function getAllProducts() : Promise<ICustomResponse<IProduct[]>> {
-    return new Promise<ICustomResponse<IProduct[]>> ( function( resolve, reject) {
+export function getAllProducts(): Promise<ICustomResponse<IProduct[]>> {
+    return new Promise<ICustomResponse<IProduct[]>>(function (resolve, reject) {
         axios({
             url: BASE_URL + apiEnviornment.productList,
             method: 'GET'
-        }).then((response: AxiosResponse<ICustomResponse<IProduct[]>>) => {           
-            resolve(response.data);            
+        }).then((response: AxiosResponse<ICustomResponse<IProduct[]>>) => {
+            resolve(response.data);
         }).catch((error: Error) => {
             reject(error);
         })
@@ -97,10 +97,10 @@ export function getProductById(_id: string): Promise<ICustomResponse<IProduct>> 
 }
 
 
-export function orderProduct(productId: string, quantity: number, totalAmount: string, productName: string) : Promise<ICustomResponse<IOrders>> {
-    return new Promise<ICustomResponse<IOrders>> (function ( resolve, reject) {
+export function orderProduct(productId: string, quantity: number, totalAmount: string, productName: string): Promise<ICustomResponse<IOrders>> {
+    return new Promise<ICustomResponse<IOrders>>(function (resolve, reject) {
         axios({
-            headers: {Authorization: localStorage.getItem("authToken")},
+            headers: { Authorization: localStorage.getItem("authToken") },
             url: BASE_URL + apiEnviornment.orderProduct,
             data: {
                 productId,
@@ -117,13 +117,13 @@ export function orderProduct(productId: string, quantity: number, totalAmount: s
     })
 }
 
-export function getOrderDetails() : Promise<ICustomResponse<IOrderDetails[]>> {
-    return new Promise<ICustomResponse<IOrderDetails[]>> (function (resolve, reject) {
+export function getOrderDetails(): Promise<ICustomResponse<IOrderDetails[]>> {
+    return new Promise<ICustomResponse<IOrderDetails[]>>(function (resolve, reject) {
         axios({
-            headers: { Authorization: localStorage.getItem("authToken")},
+            headers: { Authorization: localStorage.getItem("authToken") },
             baseURL: BASE_URL + apiEnviornment.orderDetails,
             method: 'GET'
-        }).then((response: AxiosResponse<ICustomResponse<IOrderDetails[]>>) =>{
+        }).then((response: AxiosResponse<ICustomResponse<IOrderDetails[]>>) => {
             resolve(response?.data);
         }).catch((error: Error) => {
             reject(error);
@@ -131,10 +131,10 @@ export function getOrderDetails() : Promise<ICustomResponse<IOrderDetails[]>> {
     })
 }
 
-export function searchProducts(key: string) : Promise<ICustomResponse<IProduct[]>> {
-    return new Promise<ICustomResponse<IProduct[]>> (function (resolve, reject) {
+export function searchProducts(key: string): Promise<ICustomResponse<IProduct[]>> {
+    return new Promise<ICustomResponse<IProduct[]>>(function (resolve, reject) {
         axios({
-            headers: {Authorization: localStorage.getItem("authToken")},
+            headers: { Authorization: localStorage.getItem("authToken") },
             baseURL: BASE_URL + apiEnviornment.productSearch.replace(":key", key),
             method: 'GET'
         }).then((response: AxiosResponse<ICustomResponse<IProduct[]>>) => {
@@ -145,10 +145,10 @@ export function searchProducts(key: string) : Promise<ICustomResponse<IProduct[]
     })
 }
 
-export function addProducts(name: string, company: string, category: string, price: string, description: string, imageUrl: string) : Promise<ICustomResponse<IProduct>> {
-    return new Promise<ICustomResponse<IProduct>> (function (resolve, reject) {
+export function addProducts(name: string, company: string, category: string, price: string, description: string, imageUrl: string): Promise<ICustomResponse<IProduct>> {
+    return new Promise<ICustomResponse<IProduct>>(function (resolve, reject) {
         axios({
-            headers: {Authorization: localStorage.getItem("authToken")},
+            headers: { Authorization: localStorage.getItem("authToken") },
             url: BASE_URL + apiEnviornment.addProducts,
             data: {
                 name,
@@ -167,14 +167,14 @@ export function addProducts(name: string, company: string, category: string, pri
     })
 }
 
-export function getAdminSales(startDate: string, endDate: string) : Promise<ICustomResponse<ISales[]>> {
-    return new Promise<ICustomResponse<ISales[]>> (function (resolve, reject) {
+export function getAdminSales(startDate: string, endDate: string): Promise<ICustomResponse<ISales[]>> {
+    return new Promise<ICustomResponse<ISales[]>>(function (resolve, reject) {
         axios({
-            headers: {Authorization: localStorage.getItem("authToken")},
-            params: {startDate: startDate , endDate: endDate},
+            headers: { Authorization: localStorage.getItem("authToken") },
+            params: { startDate: startDate, endDate: endDate },
             url: BASE_URL + apiEnviornment.adminSales,
             method: "GET"
-        }).then((response: AxiosResponse<ICustomResponse<ISales[]>>) =>{
+        }).then((response: AxiosResponse<ICustomResponse<ISales[]>>) => {
             resolve(response?.data);
         }).catch((error: Error) => {
             reject(error);

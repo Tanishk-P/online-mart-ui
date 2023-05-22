@@ -1,4 +1,4 @@
-export interface IInputError{
+export interface IInputError {
     name: string;
     errorText: string
 }

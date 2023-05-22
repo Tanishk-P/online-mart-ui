@@ -21,13 +21,13 @@ import AddProductModal from './AddProductModal';
 function AdminProductInfo() {
   const dispatch: any = useDispatch();
   const products: IProductState = useSelector((state: IAppState) => state.productState);
-  const [search , setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<IProduct[]>([]);
   const [modelState, setModelState] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(Products());
-  }, [dispatch]);  
+  }, [dispatch]);
 
   interface DataType {
     key: string,
@@ -59,12 +59,12 @@ function AdminProductInfo() {
       dataIndex: "price",
       key: "price",
       render: (price) => `₹ ${price}`
-    },    
+    },
     {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
-      render: () => <div style={{ display: "flex", justifyContent: "center", gap: "10px"}}><Button type='primary' icon={<MdEdit size={18}/>} /><Button icon={<AiFillEye size={18}/>}/> <Button icon={<FaTrashAlt size={18}/>} danger /></div>
+      render: () => <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}><Button type='primary' icon={<MdEdit size={18} />} /><Button icon={<AiFillEye size={18} />} /> <Button icon={<FaTrashAlt size={18} />} danger /></div>
     },
   ]
 
@@ -79,9 +79,9 @@ function AdminProductInfo() {
     }
   })
 
-  function handleChange(value: string): void { 
-    setSearch(value); 
-    searchProducts(value.toLowerCase()).then((response) => {      
+  function handleChange(value: string): void {
+    setSearch(value);
+    searchProducts(value.toLowerCase()).then((response) => {
       setFilteredData(response?.data || []);
     }).catch((error) => {
       console.error(error);
@@ -103,29 +103,29 @@ function AdminProductInfo() {
   });
 
   function renderAdd() {
-    
+
     return (
       <>
         <CommonButton backgroundColor={colors.grayColor} onClick={() => setModelState(true)}>
-            <Typography.Text style={{ color: colors.lightGrayColor}}>Add Product</Typography.Text>
-          </CommonButton>
-          <AddProductModal modelOpen={modelState} setModel={setModelState} />
+          <Typography.Text style={{ color: colors.lightGrayColor }}>Add Product</Typography.Text>
+        </CommonButton>
+        <AddProductModal modelOpen={modelState} setModel={setModelState} />
       </>
     )
   }
 
   return (
-    <>      
-      <Header style={{ display: "flex", backgroundColor: "#f0f0f0" , justifyContent: "space-between"}}>
-        <CommonHeader level={3} margin='1rem' title={labelConst.PRODUCT_LIST}/>
-          <Col offset={2} className="search">
-            <Input prefix suffix={<MdSearch size={20} color={colors.transparentGrey}/>} value={search} onChange={(e) => handleChange(e.target.value)} placeholder={labelConst.SEARCH} style={{ width: '25rem'}}/>
-          </Col>                 
-          {renderAdd()}
+    <>
+      <Header style={{ display: "flex", backgroundColor: "#f0f0f0", justifyContent: "space-between" }}>
+        <CommonHeader level={3} margin='1rem' title={labelConst.PRODUCT_LIST} />
+        <Col offset={2} className="search">
+          <Input prefix suffix={<MdSearch size={20} color={colors.transparentGrey} />} value={search} onChange={(e) => handleChange(e.target.value)} placeholder={labelConst.SEARCH} style={{ width: '25rem' }} />
+        </Col>
+        {renderAdd()}
       </Header>
-        <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "1rem 3.5rem" }}>
-          <Table bordered dataSource={newData} columns={columns} scroll={{ y: "50vh"}} />                            
-        </Content>
+      <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "1rem 3.5rem" }}>
+        <Table bordered dataSource={newData} columns={columns} scroll={{ y: "50vh" }} />
+      </Content>
     </>
   )
 }
