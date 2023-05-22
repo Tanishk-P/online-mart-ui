@@ -32,7 +32,7 @@ function ProductInfoScreen() {
 
     const [productQuantity, setProductQuantity] = useState<number>(20);
     const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
-    const [totalPrice, setTotalPrice] = useState<string>(product.price);
+    const [totalPrice, setTotalPrice] = useState<string>('');
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     const onChange = (value: number | null) => {
@@ -120,6 +120,7 @@ function ProductInfoScreen() {
                         style: { position: 'relative', zIndex: 3000 }
                     });
                     setModalState(false);
+                    // dispatch(OrderDetails());
                 });
             }
         }

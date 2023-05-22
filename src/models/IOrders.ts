@@ -5,6 +5,7 @@ export interface IOrders {
     productName: string,
     orderStatus?: string,
     userId?: string,
-    createdAt?: string,
+    name: string,
+    createdAt: string,
     completedAT?: string
 }
