@@ -25,8 +25,10 @@ function ProductInfoScreen() {
 
     useEffect(() => {
         dispatch(ProductDetails(productId));
-        setSearchQuery(product.name);
+        // setSearchQuery();
     }, [dispatch]);
+
+    console.log()
 
     const [productQuantity, setProductQuantity] = useState<number>(20);
     const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
