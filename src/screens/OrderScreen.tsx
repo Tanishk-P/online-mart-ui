@@ -1,5 +1,5 @@
-import { Col, Divider, Row, Table, Typography } from "antd";
-import { Content, Header } from "antd/es/layout/layout";
+import { Table } from "antd";
+import { Content } from "antd/es/layout/layout";
 import React, { useState, useEffect } from "react";
 import * as labelConst from "../utls/Labels";
 import { ColumnsType } from "antd/es/table";
@@ -61,23 +61,22 @@ function OrderScreen() {
     },
   ];
 
-  const data: DataType[] = orders.orderDetails.map((order) => {
-    return {
-      customerName: order.name,
-      key: order.productId,
-      product: order.productName,
-      quantity: order.quantity,
-      totalPrice: order.totalAmount,
-      purchaseDate: order.createdAt,
-    };
-  });
-
   useEffect(() => {
+    const data: DataType[] = orders.orderDetails.map((order) => {
+      return {
+        customerName: order.name,
+        key: `${order.productId} - ${order.createdAt}`,
+        product: order.productName,
+        quantity: order.quantity,
+        totalPrice: order.totalAmount,
+        purchaseDate: order.createdAt,
+      };
+    });
     const sorted = [...data].sort((a, b) =>
       compareDates(a.purchaseDate, b.purchaseDate)
     );
     setSortedData(sorted);
-  }, [data]);
+  }, [orders]);
 
   return (
     <>
