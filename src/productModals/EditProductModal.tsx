@@ -6,10 +6,27 @@ import { TbBuildingBank } from 'react-icons/tb';
 import { BiCategory, BiLink } from 'react-icons/bi';
 import CommonInput from '../components/CommonInput';
 import { MdCurrencyRupee, MdSubtitles, MdTitle } from 'react-icons/md';
-import { addProducts } from '../services/ApiActions';
+import { addProducts, editProduct } from '../services/ApiActions';
 import { colors } from '../utls/Color';
 
-function EditProductModal({ modelOpen, setModel }: { modelOpen: boolean, setModel: (arg0: boolean) => void }) {
+interface DataType {
+    key: string,
+    product: string,
+    company: string,
+    category: string,
+    price: string,
+    description: string,
+    imageUrl: string
+  }
+
+interface EditProductModalProps {
+    modelOpen: boolean;
+    setModel: (state: boolean) => void;
+    product: DataType;
+}
+
+function EditProductModal(props: (EditProductModalProps)) {
+    const { modelOpen, setModel, product } = props;
   const [productName, setProductName] = useState<string>('');
   const [productCompany, setProductCompany] = useState<string>('');
   const [productCategory, setProductCategory] = useState<string>('');
@@ -17,14 +34,22 @@ function EditProductModal({ modelOpen, setModel }: { modelOpen: boolean, setMode
   const [productDescription, setProductDescription] = useState<string>('');
   const [imageURL, setImageURL] = useState<string>('');
 
+  useEffect(() => {
+    setImageURL(product?.imageUrl);
+    setProductName(product?.product);
+    setProductCategory(product?.category);
+    setProductCompany(product?.company);
+    setProductDescription(product?.description);
+    setProductPrice(product?.price);
+  },[product])
+
   const handleOk = () => {
     setModel(false);
-    setImageURL("");
-    setProductName("");
-    setProductCategory("");
-    setProductCompany("");
-    setProductDescription("");
-    setProductPrice("");
+    product?.key && editProduct(product?.key, productName, productCompany, productCategory, productPrice, productDescription, imageURL).then((response) => {
+        notification.success({
+            message: "Product updated successfully"
+        })
+    })
   };
 
   const handleCancel = () => {

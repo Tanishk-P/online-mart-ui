@@ -145,18 +145,13 @@ export function searchProducts(key: string): Promise<ICustomResponse<IProduct[]>
     })
 }
 
-export function addProducts(name: string, company: string, category: string, price: string, description: string, imageUrl: string): Promise<ICustomResponse<IProduct>> {
+export function addProducts(productDetails: IProduct): Promise<ICustomResponse<IProduct>> {
     return new Promise<ICustomResponse<IProduct>>(function (resolve, reject) {
         axios({
             headers: { Authorization: localStorage.getItem("authToken") },
             url: BASE_URL + apiEnviornment.addProducts,
             data: {
-                name,
-                company,
-                category,
-                price,
-                description,
-                imageUrl
+                ...productDetails
             },
             method: "POST"
         }).then((response: AxiosResponse<ICustomResponse<IProduct>>) => {
@@ -175,6 +170,42 @@ export function getAdminSales(startDate: string, endDate: string): Promise<ICust
             url: BASE_URL + apiEnviornment.adminSales,
             method: "GET"
         }).then((response: AxiosResponse<ICustomResponse<ISales[]>>) => {
+            resolve(response?.data);
+        }).catch((error: Error) => {
+            reject(error);
+        })
+    })
+}
+
+export function editProduct(_id: string, name?: string, company?: string, category?: string, price?: string, description?: string, imageUrl?: string ): Promise<ICustomResponse<IProduct>> {
+    return new Promise<ICustomResponse<IProduct>> (function(resolve, reject) {
+        axios({
+            headers: { Authorization: localStorage.getItem("authToken") },
+            url: BASE_URL + apiEnviornment.editProduct.replace(":id", _id),
+            data: {
+                name,
+                company,
+                category,
+                price,
+                description,
+                imageUrl
+            },
+            method: "PUT"
+        }).then((response: AxiosResponse<ICustomResponse<IProduct>>) => {
+            resolve(response?.data)
+        }).catch((error: Error) => {
+            reject(error);
+        })
+    })
+}
+
+export function deleteProduct(_id: string): Promise<ICustomResponse<IProduct>> {
+    return new Promise<ICustomResponse<IProduct>> (function( resolve, reject) {
+        axios({
+            headers: { Authorization: localStorage?.getItem("authToken") },
+            url: BASE_URL + apiEnviornment.deleteProduct.replace(":id", _id),
+            method: "DELETE"
+        }).then((response: AxiosResponse<ICustomResponse<IProduct>>) => {
             resolve(response?.data);
         }).catch((error: Error) => {
             reject(error);
