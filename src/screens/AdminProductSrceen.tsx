@@ -1,7 +1,7 @@
 import { Content, Header } from 'antd/es/layout/layout';
 import React, { useState, useEffect } from 'react'
 import { colors } from '../utls/Color';
-import { Button, Col, Divider, Input, Modal, Row, Table, Typography } from 'antd';
+import { Button, Col, Divider, Input, Modal, notification, Popconfirm, Row, Table, Typography } from 'antd';
 import * as labelConst from '../utls/Labels';
 import CommonHeader from '../components/CommonHeader';
 import CommonButton from '../components/CommonButton';
@@ -12,9 +12,9 @@ import { Products } from '../store/ProductState/ProductActionState';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../store/state';
 import { IProductState } from '../store/ProductState/ProductState';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaQuestionCircle, FaTrashAlt } from 'react-icons/fa';
 import { AiFillEye } from 'react-icons/ai';
-import { searchProducts } from '../services/ApiActions';
+import { addProducts, deleteProduct, searchProducts } from '../services/ApiActions';
 import { IProduct } from '../models/IProduct';
 import AddProductModal from '../productModals/AddProductModal';
 import ViewProductModal from '../productModals/ViewProductModal';
@@ -26,7 +26,8 @@ function AdminProductInfo() {
   const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<IProduct[]>([]);
   const [addModelState, setAddModelState] = useState<boolean>(false);
-  const [viewModelState, setViewModelState] = useState<boolean>(true);
+  const [selectedProduct, setSelectedProduct] = useState<DataType>({} as DataType);
+  const [viewModelState, setViewModelState] = useState<boolean>(false);
   const [editModelState, setEditModelState] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,9 +38,10 @@ function AdminProductInfo() {
     key: string,
     product: string,
     company: string,
-    category?: string,
+    category: string,
     price: string,
-    actions: string
+    description: string,
+    imageUrl: string
   }
 
   const columns: ColumnsType<DataType> = [
@@ -71,9 +73,9 @@ function AdminProductInfo() {
       render: (text, record, index) => {
         return (
           <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-            {renderEdit()}
-            {renderView()}
-            <Button icon={<FaTrashAlt size={18} />} danger />
+            {renderEdit(record)}
+            {renderView(record)}
+            {renderDelete(record.key)}
           </div>
         )
       }
@@ -87,7 +89,8 @@ function AdminProductInfo() {
       company: product.company,
       category: product.category,
       price: product.price,
-      actions: 'edit/delete',
+      description: product.description,
+      imageUrl: product.imageUrl,
     }
   })
 
@@ -110,12 +113,12 @@ function AdminProductInfo() {
       company: product.company,
       category: product.category,
       price: product.price,
-      actions: 'edit/delete'
+      description: product.description,
+      imageUrl: product.imageUrl
     };
   });
 
   function renderAdd() {
-
     return (
       <>
         <CommonButton backgroundColor={colors.grayColor} onClick={() => setAddModelState(true)}>
@@ -126,18 +129,67 @@ function AdminProductInfo() {
     )
   }
 
-  function renderView(): JSX.Element {
+  // function _addProduct() {
+  //   addProducts(productDetails).then(response => {
+  //     response?.success && notification.success({
+  //       placement: "bottomRight",
+  //       message: "New Product Added",
+  //       description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor }}>{productDetails.name} has been added to the list.</Typography.Text>,
+  //       style: { position: 'relative', zIndex: 3000 }
+  //     });
+  //   })
+  // }
+
+  function renderView(product: DataType): JSX.Element {
     return (
       <>
-        <Button icon={<AiFillEye size={18} />} onClick={() => setViewModelState(true)} />
+        <Button 
+          icon={<AiFillEye size={18} />} 
+          onClick={() => {
+            setSelectedProduct(product);
+            setViewModelState(true);
+          }} 
+        />
       </>
     )
   }
 
-  function renderEdit(): JSX.Element {
+  function renderEdit(product: DataType): JSX.Element {
     return (
       <>
-        <Button type="primary" icon={<MdEdit size={18} onClick={() => setEditModelState(true)} />} />
+        <Button 
+          type="primary" 
+          icon={<MdEdit size={18} />} 
+          onClick={() => {
+            setSelectedProduct(product);
+            setEditModelState(true);
+            }} 
+        />
+      </>
+    )
+  }
+
+  function renderDelete(productId: string): JSX.Element {
+    const handleOk = () => {
+      deleteProduct(productId).then(response => {
+        notification.success({
+          message: "Successfuly deleted"
+        }) 
+      })           
+    }
+    return (
+      <>
+        <Popconfirm 
+          title={labelConst.DELETE_PRODUCT}
+          // description="Are you sure to delete this product?"
+          icon={<FaQuestionCircle size={14} color={"red"}/>}
+          onConfirm={handleOk}        
+        >
+          <Button 
+          danger
+          icon={<FaTrashAlt size={18} />}          
+        />
+        </Popconfirm>
       </>
     )
   }
@@ -154,8 +206,8 @@ function AdminProductInfo() {
       <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "1rem 3.5rem" }}>
         <Table bordered dataSource={newData} columns={columns} scroll={{ y: "50vh" }} />
       </Content>
-      <ViewProductModal modelOpen={viewModelState} setModel={setViewModelState} />
-      <EditProductModal modelOpen={editModelState} setModel={setEditModelState} />
+      <ViewProductModal modelOpen={viewModelState} setModel={setViewModelState} product={selectedProduct} />
+      <EditProductModal modelOpen={editModelState} setModel={setEditModelState} product={selectedProduct} />
     </>
   )
 }

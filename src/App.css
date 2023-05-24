@@ -138,7 +138,7 @@
   border-radius: 10px;
 }
 
-.product-image {
+.product-image-view {
   object-fit: contain;
   width: 10rem;
   height: 10rem;

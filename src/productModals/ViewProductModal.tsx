@@ -1,31 +1,31 @@
-import { Col, Divider, Modal, Row, Typography, notification } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Col, Divider, Modal, Row, Typography } from 'antd';
+import React from 'react';
 import * as labelConst from '../utls/Labels';
-import CommonHeader from '../components/CommonHeader';
 import { TbBuildingBank } from 'react-icons/tb';
 import { BiCategory, BiLink } from 'react-icons/bi';
-import CommonInput from '../components/CommonInput';
-import { MdCurrencyRupee, MdSubtitles, MdTitle } from 'react-icons/md';
-import { addProducts } from '../services/ApiActions';
-import { colors } from '../utls/Color';
-import food from '../images/food.jpg'
+import { MdCurrencyRupee, MdSubtitles } from 'react-icons/md';
 
-function ViewProductModal({ modelOpen, setModel }: { modelOpen: boolean, setModel: (arg0: boolean) => void }) {
-  const [productName, setProductName] = useState<string>('');
-  const [productCompany, setProductCompany] = useState<string>('');
-  const [productCategory, setProductCategory] = useState<string>('');
-  const [productPrice, setProductPrice] = useState<string>('');
-  const [productDescription, setProductDescription] = useState<string>('');
-  const [imageURL, setImageURL] = useState<string>('');
+interface DataType {
+    key: string,
+    product: string,
+    company: string,
+    category: string,
+    price: string,
+    description: string,
+    imageUrl: string
+  }
+
+  interface ViewProductModalProps {
+    modelOpen: boolean;
+    setModel: (state: boolean) => void;
+    product?: DataType;
+  }
+
+function ViewProductModal(props: (ViewProductModalProps)): JSX.Element {
+    const  { modelOpen, setModel, product } = props;
 
   const handleOk = () => {
     setModel(false);
-    setImageURL("");
-    setProductName("");
-    setProductCategory("");
-    setProductCompany("");
-    setProductDescription("");
-    setProductPrice("");
   };
 
   const handleCancel = () => {
@@ -36,44 +36,43 @@ function ViewProductModal({ modelOpen, setModel }: { modelOpen: boolean, setMode
   return (
     <>
       <Modal title={labelConst.VIEW_PRODUCT} open={modelOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Row gutter={20} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Row >
           <Col>
-            <Typography.Title level={3} >{labelConst.PRODUCT_NAME}</Typography.Title>
-            <Row gutter={16}>
+            <Typography.Title level={2} >{product?.product}</Typography.Title>
+            <Row >
               <Col>
-                <Typography.Text className='contain-center-with-gap'><TbBuildingBank size={18} />{labelConst.COMPANY}</Typography.Text>
-              </Col>
-            </Row>
-            <div style={{ marginTop: 12 }} />
-            <Row gutter={16}>
-              <Col>
-                <Typography.Text className='contain-center-with-gap'><BiCategory size={18} />{labelConst.CATEGORY}</Typography.Text>
+                <Typography.Text className='contain-center-with-gap'><TbBuildingBank size={18} />{product?.company}</Typography.Text>
               </Col>
             </Row>
             <div style={{ marginTop: 12 }} />
             <Row>
               <Col>
-                <Typography.Text className='contain-center-with-gap'><MdCurrencyRupee size={18} />{labelConst.PRICE}</Typography.Text>
+                <Typography.Text className='contain-center-with-gap'><BiCategory size={18} />{product?.category}</Typography.Text>
+              </Col>
+            </Row>
+            <div style={{ marginTop: 12 }} />
+            <Row>
+              <Col>
+                <Typography.Text className='contain-center-with-gap'><MdCurrencyRupee size={18} />{product?.price}</Typography.Text>
               </Col>
             </Row>
             <div style={{ marginTop: 12 }} />
             <Row >
               <Col>
-                <Typography.Text className='contain-center-with-gap'><MdSubtitles size={18} />{labelConst.DESCRIPTION}</Typography.Text>
+                <Typography.Text className='contain-center-with-gap'><MdSubtitles size={18} />{product?.description}</Typography.Text>
               </Col>
             </Row>
             <div style={{ marginTop: 12 }} />
             <Row>
-              <Col>
-                <Typography.Text className='contain-center-with-gap'><BiLink size={18} />{labelConst.IMAGE_URL}</Typography.Text>
-              </Col>
+              {/* <Col>
+                <Typography.Text className='contain-center-with-gap'><BiLink size={18} />{product?.imageUrl}</Typography.Text>
+              </Col> */}
             </Row>
           </Col>
-          <Col offset={4} style={{ marginTop: 65 }}>
-            <img className='product-image' src={food} alt='image' />
+          <Col offset={1} style={{ marginTop: 65 }}>
+            <img className='product-image-view' src={product?.imageUrl} alt='image' />
           </Col>
         </Row>
-
         <Divider />
       </Modal>
     </>

@@ -12,6 +12,8 @@ interface IApiEnvironment {
     orderDetails: string;
     productSearch: string;
     adminSales: string;
+    editProduct: string;
+    deleteProduct: string;
 }
 
 export const apiEnviornment: IApiEnvironment = {
@@ -25,4 +27,6 @@ export const apiEnviornment: IApiEnvironment = {
     orderDetails: "/orders/order-detail",
     productSearch: "/products/search/:key",
     adminSales: "/user/getAdminSellDetails",
+    editProduct: "/products/product/:id",
+    deleteProduct: "/products/product/:id"
 };

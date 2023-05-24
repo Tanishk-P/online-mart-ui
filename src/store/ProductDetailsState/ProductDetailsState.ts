@@ -5,7 +5,7 @@ export interface IProductDetailState {
     name: string;
     description: string;
     company: string;
-    category?: string;
+    category: string;
     imageUrl: string;
 }
 
