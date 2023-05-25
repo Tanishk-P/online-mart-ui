@@ -14,7 +14,7 @@ import { IAppState } from '../store/state';
 import { IProductState } from '../store/ProductState/ProductState';
 import { FaQuestionCircle, FaTrashAlt } from 'react-icons/fa';
 import { AiFillEye } from 'react-icons/ai';
-import { addProducts, deleteProduct, searchProducts } from '../services/ApiActions';
+import { addProducts, editProduct, deleteProduct, getAllProducts, searchProducts } from '../services/ApiActions';
 import { IProduct } from '../models/IProduct';
 import AddProductModal from '../productModals/AddProductModal';
 import ViewProductModal from '../productModals/ViewProductModal';
@@ -29,6 +29,9 @@ function AdminProductInfo() {
   const [selectedProduct, setSelectedProduct] = useState<DataType>({} as DataType);
   const [viewModelState, setViewModelState] = useState<boolean>(false);
   const [editModelState, setEditModelState] = useState<boolean>(false);
+  const [editProductDetails, setEditProductDetails] = useState<DataType>({} as DataType);
+  const [newProduct, setNewProduct] = useState<IProduct>({} as IProduct);
+  const [clearProduct, setClearProduct] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(Products());
@@ -36,7 +39,7 @@ function AdminProductInfo() {
 
   interface DataType {
     key: string,
-    product: string,
+    name: string,
     company: string,
     category: string,
     price: string,
@@ -47,8 +50,8 @@ function AdminProductInfo() {
   const columns: ColumnsType<DataType> = [
     {
       title: "Product",
-      dataIndex: "product",
-      key: "product",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Company",
@@ -85,7 +88,7 @@ function AdminProductInfo() {
   const data: DataType[] = products.productList.map((product) => {
     return {
       key: product._id,
-      product: product.name,
+      name: product.name,
       company: product.company,
       category: product.category,
       price: product.price,
@@ -94,7 +97,7 @@ function AdminProductInfo() {
     }
   })
 
-  function handleChange(value: string): void {
+  function handleSearchChange(value: string): void {
     setSearch(value);
     searchProducts(value.toLowerCase()).then((response) => {
       setFilteredData(response?.data || []);
@@ -105,11 +108,11 @@ function AdminProductInfo() {
   }
 
   const newData: DataType[] = data.filter((product) =>
-    product.product.toLowerCase().includes(search.toLowerCase())
+    product.name.toLowerCase().includes(search.toLowerCase())
   ).map((product) => {
     return {
       key: product.key,
-      product: product.product,
+      name: product.name,
       company: product.company,
       category: product.category,
       price: product.price,
@@ -118,27 +121,32 @@ function AdminProductInfo() {
     };
   });
 
-  function renderAdd() {
+  function renderAdd(): JSX.Element {
+    function handleAdd(): void {
+      addProducts(newProduct).then(response => {
+        getAllProducts().then(response => {
+          dispatch(Products())
+        });
+        response?.success && notification.success({
+          placement: "bottomRight",
+          message: "New Product Added",
+          description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor }}>{newProduct.name} has been added to the list.</Typography.Text>,
+          style: { position: 'relative', zIndex: 3000 }
+        });
+      })
+      setClearProduct(true);
+      setAddModelState(false);
+    }
+
     return (
       <>
         <CommonButton backgroundColor={colors.grayColor} onClick={() => setAddModelState(true)}>
           <Typography.Text style={{ color: colors.lightGrayColor }}>Add Product</Typography.Text>
         </CommonButton>
-        <AddProductModal modelOpen={addModelState} setModel={setAddModelState} />
+        <AddProductModal modelOpen={addModelState} setModel={setAddModelState} onOk={handleAdd} clearProduct={clearProduct} onAddProduct={setNewProduct} />
       </>
     )
   }
-
-  // function _addProduct() {
-  //   addProducts(productDetails).then(response => {
-  //     response?.success && notification.success({
-  //       placement: "bottomRight",
-  //       message: "New Product Added",
-  //       description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor }}>{productDetails.name} has been added to the list.</Typography.Text>,
-  //       style: { position: 'relative', zIndex: 3000 }
-  //     });
-  //   })
-  // }
 
   function renderView(product: DataType): JSX.Element {
     return (
@@ -169,21 +177,38 @@ function AdminProductInfo() {
     )
   }
 
-  function renderDelete(productId: string): JSX.Element {
-    const handleOk = () => {
-      deleteProduct(productId).then(response => {
+  function handleEdit(): void {
+    editProduct(editProductDetails).then((response) => {
+      getAllProducts().then( response => {
+        dispatch(Products());
+      })
         notification.success({
+          placement: "bottomRight",
+          message: "Product updated successfully"
+      })
+  })
+    setEditModelState(false);
+  }
+
+  function renderDelete(productId: string): JSX.Element {
+    const handleDelete = () => {
+      deleteProduct(productId).then(response => {
+        getAllProducts().then( response => {
+          dispatch(Products());
+        })
+        notification.success({
+          placement: "bottomRight",
           message: "Successfuly deleted"
         }) 
       })           
     }
+
     return (
       <>
         <Popconfirm 
           title={labelConst.DELETE_PRODUCT}
-          // description="Are you sure to delete this product?"
           icon={<FaQuestionCircle size={14} color={"red"}/>}
-          onConfirm={handleOk}        
+          onConfirm={handleDelete}        
         >
           <Button 
           danger
@@ -199,7 +224,7 @@ function AdminProductInfo() {
       <Header style={{ display: "flex", backgroundColor: "#f0f0f0", justifyContent: "space-between" }}>
         <CommonHeader level={3} margin='1rem' title={labelConst.PRODUCT_LIST} />
         <Col offset={2} className="search">
-          <Input prefix suffix={<MdSearch size={20} color={colors.transparentGrey} />} value={search} onChange={(e) => handleChange(e.target.value)} placeholder={labelConst.SEARCH} style={{ width: '25rem' }} />
+          <Input prefix suffix={<MdSearch size={20} color={colors.transparentGrey} />} value={search} onChange={(e) => handleSearchChange(e.target.value)} placeholder={labelConst.SEARCH} style={{ width: '25rem' }} />
         </Col>
         {renderAdd()}
       </Header>
@@ -207,7 +232,7 @@ function AdminProductInfo() {
         <Table bordered dataSource={newData} columns={columns} scroll={{ y: "50vh" }} />
       </Content>
       <ViewProductModal modelOpen={viewModelState} setModel={setViewModelState} product={selectedProduct} />
-      <EditProductModal modelOpen={editModelState} setModel={setEditModelState} product={selectedProduct} />
+      <EditProductModal modelOpen={editModelState} setModel={setEditModelState} product={selectedProduct} onOk={handleEdit} onEditModal={setEditProductDetails} />
     </>
   )
 }

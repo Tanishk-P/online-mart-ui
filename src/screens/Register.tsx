@@ -25,12 +25,10 @@ function Register() {
   const navigate = useNavigate();
 
   function onRegister(): void {
-    console.log("clicked register", email, username, contact, password);
     if (validation()) {
       if (email && username && contact && password) {
         register(email, username, contact, password).then(response => {
           if (response?.success) {
-            console.log('signed up', response?.data);
             navigate(PageRoutes.home);
           }
         }).catch(error => {
