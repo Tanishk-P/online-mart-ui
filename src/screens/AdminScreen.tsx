@@ -33,22 +33,22 @@ function AdminScreen() {
 
   return (
     <>
-      <Header style={{ display: "flex", backgroundColor: "white", padding: "1rem", gap: "1rem", justifyContent: "center", alignItems: "center" }} >
+      <Header style={{ display: "flex", backgroundColor: "#f0f0f0", padding: "1rem", gap: "1rem", justifyContent: "center", alignItems: "center" }} >
         <Typography.Text>Start Date:</Typography.Text>
         <Input value={startDate} style={{ width: "8rem" }} type='date' onChange={(e) => setStartDate(e.target.value)} />
         <Divider type='vertical' style={{ height: "1.5rem" }} />
         <Typography.Text>End Date:</Typography.Text>
         <Input value={endDate} style={{ width: "8rem" }} type='date' onChange={(e) => setEndDate(e.target.value)} />
       </Header>
-      <Content className='admin-screen-content' style={{ backgroundColor: "rgb(0, 20,0, 90%", height: "45vh", padding: "2rem" }}>
-        <LineChart width={1080} height={250} data={salesGraph}
+      <Content className='admin-screen-content' style={{ backgroundColor: "#f0f0f0", height: "90vh", padding: "5rem 8rem" }}>
+        <LineChart width={1080} height={300} data={salesGraph}
           margin={{ top: 5, right: 10, left: 80, bottom: 5 }}>
           <CartesianGrid strokeDasharray="6" />
-          <XAxis dataKey="Date" />
-          <YAxis />
+          <XAxis strokeWidth={"2"} dataKey="Date" />
+          <YAxis strokeWidth={"2"} />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="Sales" stroke="rgb(150, 200, 5)" />
+          <Line type="monotone" dataKey="Sales" strokeWidth={"1"} stroke="red" />
         </LineChart>
       </Content>
     </>
