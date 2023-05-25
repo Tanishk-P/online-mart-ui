@@ -10,7 +10,10 @@ import { useNavigate } from 'react-router-dom';
 
 function AdminHeader() {
     const navigate = useNavigate();
-    const [selectedButton, setSelectedButton] = useState<string>(PageRoutes.adminOrder);
+    const currentLink = window.location.href;
+    const path = currentLink.substring(21)
+
+    const [selectedButton, setSelectedButton] = useState<string>(path);
 
     const handleClick = (adminRoute: string) => {
         setSelectedButton(adminRoute);
