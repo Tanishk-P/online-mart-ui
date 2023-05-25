@@ -30,7 +30,8 @@ function App() {
 }
 
 function AdminRoutes() {
-  return (
+  if (ProtectedRoute()) {
+    return (
     <>
       <AdminHeader />
       <Routes>
@@ -41,6 +42,23 @@ function AdminRoutes() {
       </Routes>
     </>
   );
+  }
+  return (
+    <>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+      </Routes>
+    </>
+  )
+  
+}
+
+function ProtectedRoute() {
+  let isAllowed: boolean = false
+  if (localStorage.getItem("authToken")) {
+    isAllowed = true;
+  }
+  return isAllowed
 }
 
 export default App;
