@@ -23,7 +23,6 @@ function Login() {
   const navigate = useNavigate();
 
   function onLogin(): void {
-    console.log('clicked login', email, password)
     if (validation()) {
       login(email, password).then(response => {
         if (response?.success) {
