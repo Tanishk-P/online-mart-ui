@@ -38,7 +38,7 @@ function OrderScreen() {
       key: "customerName",
     },
     {
-      title: "Purchase date",
+      title: "Purchase Date & Time",
       dataIndex: "purchaseDate",
       key: "purchaseDate",
       // sorter: (a, b) => compareDates(a.purchaseDate, b.purchaseDate),
