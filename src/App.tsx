@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import Home from './screens/Home';
@@ -43,13 +43,7 @@ function AdminRoutes() {
     </>
   );
   }
-  return (
-    <>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-      </Routes>
-    </>
-  )
+  return (<Navigate to={'/login'} />)
   
 }
 
