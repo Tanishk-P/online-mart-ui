@@ -8,6 +8,7 @@ import { IProduct } from "../models/IProduct"
 import { IOrders } from "../models/IOrders"
 import { IOrderDetails } from "../models/IOrderDetails"
 import { ISales } from "../models/ISales"
+import { IDataType } from "../models/IDatatype"
 
 export function login(email: string, password: string): Promise<ICustomResponse<ILoginResult>> {
     return new Promise<ICustomResponse<ILoginResult>>(function (resolve, reject) {
@@ -177,18 +178,13 @@ export function getAdminSales(startDate: string, endDate: string): Promise<ICust
     })
 }
 
-export function editProduct(_id: string, name?: string, company?: string, category?: string, price?: string, description?: string, imageUrl?: string ): Promise<ICustomResponse<IProduct>> {
+export function editProduct(productDetails: IDataType): Promise<ICustomResponse<IProduct>> {
     return new Promise<ICustomResponse<IProduct>> (function(resolve, reject) {
         axios({
             headers: { Authorization: localStorage.getItem("authToken") },
-            url: BASE_URL + apiEnviornment.editProduct.replace(":id", _id),
+            url: BASE_URL + apiEnviornment.editProduct.replace(":id", productDetails.key),
             data: {
-                name,
-                company,
-                category,
-                price,
-                description,
-                imageUrl
+                ...productDetails
             },
             method: "PUT"
         }).then((response: AxiosResponse<ICustomResponse<IProduct>>) => {

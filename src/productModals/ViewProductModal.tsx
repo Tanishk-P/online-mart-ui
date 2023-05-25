@@ -4,21 +4,12 @@ import * as labelConst from '../utls/Labels';
 import { TbBuildingBank } from 'react-icons/tb';
 import { BiCategory, BiLink } from 'react-icons/bi';
 import { MdCurrencyRupee, MdSubtitles } from 'react-icons/md';
-
-interface DataType {
-    key: string,
-    product: string,
-    company: string,
-    category: string,
-    price: string,
-    description: string,
-    imageUrl: string
-  }
+import { IDataType } from '../models/IDatatype';
 
   interface ViewProductModalProps {
     modelOpen: boolean;
     setModel: (state: boolean) => void;
-    product?: DataType;
+    product?: IDataType;
   }
 
 function ViewProductModal(props: (ViewProductModalProps)): JSX.Element {
@@ -38,7 +29,7 @@ function ViewProductModal(props: (ViewProductModalProps)): JSX.Element {
       <Modal title={labelConst.VIEW_PRODUCT} open={modelOpen} onOk={handleOk} onCancel={handleCancel}>
         <Row >
           <Col>
-            <Typography.Title level={2} >{product?.product}</Typography.Title>
+            <Typography.Title level={2} >{product?.name}</Typography.Title>
             <Row >
               <Col>
                 <Typography.Text className='contain-center-with-gap'><TbBuildingBank size={18} />{product?.company}</Typography.Text>

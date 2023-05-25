@@ -25,10 +25,7 @@ function ProductInfoScreen() {
 
     useEffect(() => {
         dispatch(ProductDetails(productId));
-        // setSearchQuery();
     }, [dispatch]);
-
-    console.log()
 
     const [productQuantity, setProductQuantity] = useState<number>(20);
     const [selectedQuantity, setSelectedQuanity] = useState<number>(1);
@@ -113,7 +110,6 @@ function ProductInfoScreen() {
         const onOk = () => {
             if (product._id && selectedQuantity && totalPrice && product.name) {
                 orderProduct(product._id, selectedQuantity, totalPrice, product.name).then(response => {
-                    console.log('order successfull', response?.data);
                     notification.success({
                         message: "Order Placed",
                         description: <Typography.Text style={{ display: "inline-flex", gap: 5, color: colors.grayColor }}>Purchased <div style={{ color: colors.primaryColor }}>{product.name}</div>, quantity is <div style={{ color: colors.primaryColor }}>{selectedQuantity}</div></Typography.Text>,
