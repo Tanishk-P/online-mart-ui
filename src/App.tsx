@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import Home from './screens/Home';
@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import store from './store/Store';
 import AdminProductInfo from './screens/AdminProductSrceen';
 import AdminHeader from './components/AdminHeader';
-
+import { PropsWithChildren } from 'react';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/sign-up' element={<Register />} />
           <Route path='/info' element={<ProductInfoScreen />} />
-          <Route path='/admin/*' element={<AdminRoutes />} />
+          <Route path='/admin/*' element={<ProtectedRoute><AdminRoutes /></ProtectedRoute> } />
         </Routes>
       </BrowserRouter>
     </Provider>
@@ -30,7 +30,6 @@ function App() {
 }
 
 function AdminRoutes() {
-  if (ProtectedRoute()) {
     return (
     <>
       <AdminHeader />
@@ -43,16 +42,14 @@ function AdminRoutes() {
     </>
   );
   }
-  return (<Navigate to={'/login'} />)
-  
-}
 
-function ProtectedRoute() {
-  let isAllowed: boolean = false
+function ProtectedRoute(props: PropsWithChildren) {
   if (localStorage.getItem("authToken")) {
-    isAllowed = true;
+    return<>{props.children}</>
+  } else {
+    window.location.href = '/login'
+    return <></>
   }
-  return isAllowed
 }
 
 export default App;
