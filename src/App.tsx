@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import store from './store/Store';
 import AdminProductInfo from './screens/AdminProductSrceen';
 import AdminHeader from './components/AdminHeader';
-
+import { PropsWithChildren } from 'react';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/sign-up' element={<Register />} />
           <Route path='/info' element={<ProductInfoScreen />} />
-          <Route path='/admin/*' element={<AdminRoutes />} />
+          <Route path='/admin/*' element={<ProtectedRoute><AdminRoutes /></ProtectedRoute> } />
         </Routes>
       </BrowserRouter>
     </Provider>
@@ -30,7 +30,7 @@ function App() {
 }
 
 function AdminRoutes() {
-  return (
+    return (
     <>
       <AdminHeader />
       <Routes>
@@ -41,6 +41,15 @@ function AdminRoutes() {
       </Routes>
     </>
   );
+  }
+
+function ProtectedRoute(props: PropsWithChildren) {
+  if (localStorage.getItem("authToken")) {
+    return<>{props.children}</>
+  } else {
+    window.location.href = '/login'
+    return <></>
+  }
 }
 
 export default App;
